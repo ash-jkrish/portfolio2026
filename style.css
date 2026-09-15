@@ -1,18 +1,15 @@
 /* =========================================
    RESET
 ========================================= */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
 /* =========================================
    HTML / BODY
 ========================================= */
-
 html,
 body {
   width: 100%;
@@ -23,69 +20,31 @@ body {
   overflow-x: hidden;
 }
 
-
-/* =========================================
-   BODY
-========================================= */
-
 body {
   color: #ffffff;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background:
-    radial-gradient(
-      ellipse 75% 65% at 62% 68%,
-      #63c7e8 0%,
-      #2ca5ce 18%,
-      #087aa7 38%,
-      transparent 65%
-    ),
-    radial-gradient(
-      ellipse 100% 100% at 50% 45%,
-      #075276 0%,
-      #032d43 42%,
-      #011724 72%,
-      #000d17 100%
-    );
+    radial-gradient(ellipse 75% 65% at 62% 68%, #63c7e8 0%, #2ca5ce 18%, #087aa7 38%, transparent 65%),
+    radial-gradient(ellipse 100% 100% at 50% 45%, #075276 0%, #032d43 42%, #011724 72%, #000d17 100%);
   background-attachment: fixed;
 }
-
 
 /* =========================================
    SCROLL WRAPPER
 ========================================= */
-
 .scroll-wrapper {
   position: relative;
   width: 100%;
   min-height: 600vh;
   overflow-x: hidden;
   background:
-    radial-gradient(
-      ellipse 75% 65% at 62% 68%,
-      #63c7e8 0%,
-      #2ca5ce 18%,
-      #087aa7 38%,
-      transparent 65%
-    ),
-    radial-gradient(
-      ellipse 100% 100% at 50% 45%,
-      #075276 0%,
-      #032d43 42%,
-      #011724 72%,
-      #000d17 100%
-    );
+    radial-gradient(ellipse 75% 65% at 62% 68%, #63c7e8 0%, #2ca5ce 18%, #087aa7 38%, transparent 65%),
+    radial-gradient(ellipse 100% 100% at 50% 45%, #075276 0%, #032d43 42%, #011724 72%, #000d17 100%);
 }
-
 
 /* =========================================
    FIXED CANVAS CONTAINER
 ========================================= */
-
 .video-container {
   position: fixed;
   top: 0;
@@ -99,11 +58,6 @@ body {
   pointer-events: none;
 }
 
-
-/* =========================================
-   CANVAS
-========================================= */
-
 #sequence-canvas {
   position: absolute;
   top: 0;
@@ -116,11 +70,9 @@ body {
   pointer-events: none;
 }
 
-
 /* =========================================
    SCROLL HINT
 ========================================= */
-
 .scroll-hint {
   position: absolute;
   left: 50%;
@@ -145,298 +97,152 @@ body {
   animation: bounceHint 2s infinite ease-in-out;
 }
 
-
 @keyframes bounceHint {
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, 8px);
-  }
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
 }
 
-
 /* =========================================
-   PORTFOLIO CONTENT (FIXED FOR MOBILE FLOW)
+   PORTFOLIO CONTENT & ABOUT ME CARD (~50% SIZE)
 ========================================= */
-
 .portfolio-content {
   position: relative;
   width: 100%;
   min-height: 100vh;
   z-index: 10;
-  /* Pushes content down past the 600vh scroll runway so it flows naturally */
   margin-top: 500vh; 
   padding: 120px 10% 80px;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0, 13, 23, 0) 0%,
-      rgba(1, 23, 36, 0.25) 20%,
-      rgba(2, 45, 67, 0.72) 60%,
-      #032d43 100%
-    );
+  background: linear-gradient(to bottom, rgba(0, 13, 23, 0) 0%, rgba(1, 23, 36, 0.25) 20%, rgba(2, 45, 67, 0.72) 60%, #032d43 100%);
 }
 
-
-/* =========================================
-   HERO
-========================================= */
-
 .portfolio-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 0%;
   margin-bottom: 80px;
 }
 
-
-.portfolio-hero .tagline {
-  display: inline-block;
-  margin-bottom: 12px;
-  color: #8be8ff;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-
-.portfolio-hero h1 {
-  max-width: 900px;
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.2;
-  background:
-    linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #d8f6ff 100%
-    );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-
-/* =========================================
-   INTRO
-========================================= */
-
-.intro-heading {
-  margin-bottom: 40px;
-}
-
-
-.intro-heading h2 {
-  margin-bottom: 8px;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
-
-.intro-heading p {
-  color: #d9f6ff;
-  font-size: 1.1rem;
-  line-height: 1.5;
-}
-
-
-/* =========================================
-   GRID
-========================================= */
-
-.portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-
-/* =========================================
-   CARD
-========================================= */
-
-.card {
-  padding: 32px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(150, 230, 255, 0.18);
-  border-radius: 16px;
+/* Enlarged to ~50% Width & Height Profile */
+.about-bg-wrapper {
+  position: relative;
+  background-image: linear-gradient(rgba(11, 15, 25, 0.93), rgba(11, 15, 25, 0.99)), url('your-about-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 60px 55px;
+  border-radius: 36px;
+  border: 1px solid rgba(139, 232, 255, 0.4);
+  box-shadow: 0 45px 90px rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 50vw;
+  min-width: 540px;
+  max-width: 820px;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
 }
-
-
-.card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(120, 225, 255, 0.7);
-  box-shadow: 0 15px 40px rgba(45, 180, 220, 0.25);
-}
-
-
-.card h3 {
-  margin-bottom: 12px;
-  color: #ffffff;
-  font-size: 1.35rem;
-}
-
-
-.card p {
-  color: #e0f7ff;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
 
 /* =========================================
-   TABLET
+   GAME-STYLE SKILL ICONS & ANIMATIONS
 ========================================= */
+@keyframes gameFloat1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(-2deg); }
+}
 
+@keyframes gameFloat2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(8px) rotate(2deg); }
+}
+
+@keyframes gameFloat3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(1deg); }
+}
+
+.float-game-1 { animation: gameFloat1 4.5s ease-in-out infinite; }
+.float-game-2 { animation: gameFloat2 5.5s ease-in-out infinite; }
+.float-game-3 { animation: gameFloat3 5s ease-in-out infinite; }
+
+.game-icons-container {
+  position: relative;
+  height: 240px;
+  width: 100%;
+  margin-top: 30px;
+  border-top: 1px solid rgba(139, 232, 255, 0.2);
+  padding-top: 15px;
+}
+
+.game-skill-circle {
+  position: absolute;
+  background: rgba(11, 15, 25, 0.9);
+  border: 1px solid rgba(139, 232, 255, 0.35);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8be8ff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+}
+
+.game-skill-circle span {
+  position: absolute;
+  bottom: -24px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: #d9f6ff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+/* Badge Coordinates */
+.pos-circle-1 { top: 15px; left: 20px; }
+.pos-circle-2 { top: 95px; left: 170px; }
+.pos-circle-3 { top: 15px; right: 35px; }
+.pos-circle-4 { top: 120px; left: 25px; }
+.pos-circle-5 { top: 130px; right: 70px; }
+.pos-circle-6 { bottom: 10px; left: 280px; }
+
+/* Red-White Blinking Keyframes */
+@keyframes redWhiteBlink {
+  0%   { color: #ffffff; border-color: #ffffff; background: rgb(50, 255, 245); box-shadow: 0 0 25px rgba(43, 19, 255, 0.9); }
+  50%  { color: #0051ff; border-color: #1423f7; background: rgba(255, 255, 255, 0.35); box-shadow: 0 0 30px rgba(255, 255, 255, 1); }
+  100% { color: #ffffff; border-color: #ffffff; background: rgb(0, 217, 255); box-shadow: 0 0 25px rgba(23, 38, 255, 0.9); }
+}
+
+.game-skill-circle.is-escaping {
+  animation: redWhiteBlink 0.35s infinite alternate;
+  z-index: 20;
+}
+
+/* Smoke Disappear Effect */
+.game-skill-circle.is-smoke {
+  opacity: 0 !important;
+  transform: scale(0.3) rotate(45deg) translateY(-30px) !important;
+  filter: blur(8px);
+}
+
+/* =========================================
+   RESPONSIVE QUERIES
+========================================= */
 @media (max-width: 1024px) {
-  .portfolio-content {
-    padding-left: 7%;
-    padding-right: 7%;
-  }
-
-  .portfolio-hero h1 {
-    font-size: 2.6rem;
-  }
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 768px) {
-  .scroll-wrapper {
-    min-height: 500vh;
-  }
-
-  .video-container {
-    width: 100%;
-    height: 100dvh;
-    min-height: 100dvh;
-  }
-
-  #sequence-canvas {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Scroll hint */
-  .scroll-hint {
-    bottom: 35px;
-    padding: 8px 16px;
-    font-size: 0.7rem;
-    letter-spacing: 1.2px;
-  }
-
-  .scroll-hint svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  /* Portfolio content mobile positioning matches scroll reduction */
-  .portfolio-content {
-    margin-top: 400vh; 
-    padding: 80px 6% 50px;
-    min-height: 100dvh;
-  }
-
-  .portfolio-hero {
-    margin-bottom: 55px;
-  }
-
-  .portfolio-hero .tagline {
-    font-size: 0.7rem;
-    letter-spacing: 1.5px;
-  }
-
-  .portfolio-hero h1 {
-    max-width: 100%;
-    font-size: clamp(2rem, 8vw, 2.7rem);
-    line-height: 1.15;
-  }
-
-  .intro-heading {
-    margin-bottom: 30px;
-  }
-
-  .intro-heading h2 {
-    font-size: 1.6rem;
-  }
-
-  .intro-heading p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .card {
-    padding: 24px;
-    border-radius: 14px;
-  }
-
-  .card h3 {
-    font-size: 1.15rem;
-  }
-
-  .card p {
-    font-size: 0.9rem;
-  }
-}
-
-
-/* =========================================
-   SMALL PHONES
-========================================= */
-
-@media (max-width: 480px) {
-  .scroll-wrapper {
-    min-height: 450vh;
-  }
-
-  .portfolio-content {
-    margin-top: 350vh;
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-
-  .portfolio-hero h1 {
-    font-size: 2rem;
-  }
-
-  .portfolio-hero .tagline {
-    font-size: 0.65rem;
-  }
-
-  .intro-heading h2 {
-    font-size: 1.45rem;
-  }
-
-  .card {
-    padding: 20px;
-  }
-}
-
-
-/* =========================================
-   LANDSCAPE PHONES
-========================================= */
-
-@media (max-width: 900px) and (orientation: landscape) {
-  .video-container {
-    height: 100dvh;
-  }
-
-  .scroll-hint {
-    bottom: 20px;
-  }
-
-  .portfolio-content {
-    padding-top: 60px;
-  }
+  .about-bg-wrapper { width: 90vw; min-width: auto; min-height: auto; }
+  .portfolio-hero { justify-content: center; padding: 30px 15px; }
+  .game-icons-container { height: auto; display: flex; flex-wrap: wrap; gap: 12px; position: static; justify-content: center; padding-top: 15px; }
+  .game-skill-circle { position: static !important; }
+  .game-skill-circle span { position: static; margin-top: 4px; }
 }
