@@ -3,42 +3,47 @@
 
 <head>
 
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-  <title>Ashly — Visual Designer</title>
+    <meta
+        name="theme-color"
+        content="#000d17"
+    >
 
-
-  <!-- =====================================
-       CSS
-  ====================================== -->
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+    <title>Ashly — Visual Designer</title>
 
 
-  <!-- =====================================
-       GSAP
-  ====================================== -->
+    <!-- =====================================
+         CSS
+    ====================================== -->
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
-  </script>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 
-  <!-- =====================================
-       GSAP SCROLLTRIGGER
-  ====================================== -->
+    <!-- =====================================
+         GSAP
+    ====================================== -->
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js">
-  </script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
+    </script>
+
+
+    <!-- =====================================
+         GSAP SCROLLTRIGGER
+    ====================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js">
+    </script>
 
 </head>
 
@@ -46,187 +51,211 @@
 <body>
 
 
-  <!-- =====================================
-       MAIN SCROLL WRAPPER
-  ====================================== -->
-
-  <div
-    class="scroll-wrapper"
-    id="scroll-wrapper"
-  >
-
-
-    <!-- ===================================
-         FIXED CANVAS
-    ==================================== -->
+    <!-- =====================================
+         MAIN SCROLL WRAPPER
+    ====================================== -->
 
     <div
-      class="video-container"
-      id="video-container"
+        class="scroll-wrapper"
+        id="scroll-wrapper"
     >
 
-      <canvas
-        id="sequence-canvas"
-      ></canvas>
 
+        <!-- =================================
+             FIXED ANIMATION CONTAINER
+        ================================== -->
 
-      <!-- =================================
-           SCROLL HINT
-      ================================== -->
-
-      <div
-        class="scroll-hint"
-        id="scroll-hint"
-      >
-
-        <span>
-          Scroll Down
-        </span>
-
-
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+        <div
+            class="video-container"
+            id="video-container"
         >
 
-          <path
-            d="M12 5v14M19 12l-7 7-7-7"
-          />
 
-        </svg>
+            <!-- =================================
+                 239 FRAME CANVAS ANIMATION
+            ================================== -->
 
-      </div>
+            <canvas
+                id="sequence-canvas"
+            ></canvas>
+
+
+            <!-- =================================
+                 SCROLL HINT
+            ================================== -->
+
+            <div
+                class="scroll-hint"
+                id="scroll-hint"
+            >
+
+                <span>
+                    Scroll Down
+                </span>
+
+
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="M12 5v14M19 12l-7 7-7-7"
+                    />
+
+                </svg>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             PORTFOLIO CONTENT
+        ====================================== -->
+
+        <main
+            class="portfolio-content"
+        >
+
+
+            <!-- =================================
+                 HERO
+            ================================== -->
+
+            <section
+                class="portfolio-hero"
+            >
+
+                <span
+                    class="tagline"
+                >
+                    Visual & Motion Designer
+                </span>
+
+
+                <h1>
+                    Crafting Digital Experiences
+                    & Motion Graphics
+                </h1>
+
+            </section>
+
+
+            <!-- =================================
+                 SELECTED WORKS
+            ================================== -->
+
+            <section
+                class="intro-heading"
+            >
+
+                <h2>
+                    Selected Works
+                </h2>
+
+
+                <p>
+                    Exploring visual design,
+                    3D motion, and brand experiences.
+                </p>
+
+            </section>
+
+
+            <!-- =================================
+                 WORK CARDS
+            ================================== -->
+
+            <section
+                class="portfolio-grid"
+                aria-label="Selected works"
+            >
+
+
+                <!-- CARD 01 -->
+
+                <article
+                    class="card"
+                >
+
+                    <h3>
+                        3D & Motion Graphics
+                    </h3>
+
+
+                    <p>
+                        Interactive motion concepts,
+                        3D character assets, and video
+                        animation setup.
+                    </p>
+
+                </article>
+
+
+                <!-- CARD 02 -->
+
+                <article
+                    class="card"
+                >
+
+                    <h3>
+                        Visual & Brand Identity
+                    </h3>
+
+
+                    <p>
+                        Crafting graphic design assets,
+                        promotional posters, and visual
+                        brand guidelines.
+                    </p>
+
+                </article>
+
+
+                <!-- CARD 03 -->
+
+                <article
+                    class="card"
+                >
+
+                    <h3>
+                        UI & Digital Experience
+                    </h3>
+
+
+                    <p>
+                        Modern web interfaces combining
+                        scroll-driven animations and
+                        clean layouts.
+                    </p>
+
+                </article>
+
+
+            </section>
+
+
+        </main>
+
 
     </div>
 
 
     <!-- =====================================
-         PORTFOLIO CONTENT
+         MAIN JAVASCRIPT
     ====================================== -->
 
-    <main
-      class="portfolio-content"
-    >
-
-
-      <!-- HERO -->
-
-      <div
-        class="portfolio-hero"
-      >
-
-        <span
-          class="tagline"
-        >
-          Visual & Motion Designer
-        </span>
-
-
-        <h1>
-          Crafting Digital Experiences
-          & Motion Graphics
-        </h1>
-
-      </div>
-
-
-      <!-- SELECTED WORKS -->
-
-      <section
-        class="intro-heading"
-      >
-
-        <h2>
-          Selected Works
-        </h2>
-
-
-        <p>
-          Exploring visual design,
-          3D motion, and brand experiences.
-        </p>
-
-      </section>
-
-
-      <!-- WORK CARDS -->
-
-      <div
-        class="portfolio-grid"
-      >
-
-
-        <div
-          class="card"
-        >
-
-          <h3>
-            3D & Motion Graphics
-          </h3>
-
-          <p>
-            Interactive motion concepts,
-            3D character assets, and video
-            animation setup.
-          </p>
-
-        </div>
-
-
-        <div
-          class="card"
-        >
-
-          <h3>
-            Visual & Brand Identity
-          </h3>
-
-          <p>
-            Crafting graphic design assets,
-            promotional posters, and visual
-            brand guidelines.
-          </p>
-
-        </div>
-
-
-        <div
-          class="card"
-        >
-
-          <h3>
-            UI & Digital Experience
-          </h3>
-
-          <p>
-            Modern web interfaces combining
-            scroll-driven animations and
-            clean layouts.
-          </p>
-
-        </div>
-
-
-      </div>
-
-    </main>
-
-  </div>
-
-
-  <!-- =====================================
-       MAIN JAVASCRIPT
-  ====================================== -->
-
-  <script
-    src="script.js"
-  ></script>
+    <script
+        src="script.js"
+    ></script>
 
 
 </body>
