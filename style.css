@@ -15,14 +15,11 @@
 
 html,
 body {
-
   width: 100%;
   min-width: 100%;
   height: 100%;
-
   margin: 0;
   padding: 0;
-
   overflow-x: hidden;
 }
 
@@ -32,36 +29,28 @@ body {
 ========================================= */
 
 body {
-
   color: #ffffff;
-
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     Roboto,
     sans-serif;
-
   background:
-
     radial-gradient(
       ellipse 75% 65% at 62% 68%,
-
       #63c7e8 0%,
       #2ca5ce 18%,
       #087aa7 38%,
       transparent 65%
     ),
-
     radial-gradient(
       ellipse 100% 100% at 50% 45%,
-
       #075276 0%,
       #032d43 42%,
       #011724 72%,
       #000d17 100%
     );
-
   background-attachment: fixed;
 }
 
@@ -71,29 +60,20 @@ body {
 ========================================= */
 
 .scroll-wrapper {
-
   position: relative;
-
   width: 100%;
-
   min-height: 600vh;
-
   overflow-x: hidden;
-
   background:
-
     radial-gradient(
       ellipse 75% 65% at 62% 68%,
-
       #63c7e8 0%,
       #2ca5ce 18%,
       #087aa7 38%,
       transparent 65%
     ),
-
     radial-gradient(
       ellipse 100% 100% at 50% 45%,
-
       #075276 0%,
       #032d43 42%,
       #011724 72%,
@@ -107,23 +87,15 @@ body {
 ========================================= */
 
 .video-container {
-
   position: fixed;
-
   top: 0;
   left: 0;
-
   width: 100%;
-
   height: 100vh;
   height: 100dvh;
-
   z-index: 1;
-
   overflow: hidden;
-
   background: transparent;
-
   pointer-events: none;
 }
 
@@ -133,20 +105,14 @@ body {
 ========================================= */
 
 #sequence-canvas {
-
   position: absolute;
-
   top: 0;
   left: 0;
-
   display: block;
-
   width: 100%;
   height: 100%;
-
   margin: 0;
   padding: 0;
-
   pointer-events: none;
 }
 
@@ -156,108 +122,59 @@ body {
 ========================================= */
 
 .scroll-hint {
-
   position: absolute;
-
   left: 50%;
   bottom: 90px;
-
   transform: translateX(-50%);
-
   z-index: 5;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   gap: 8px;
-
   padding: 10px 20px;
-
   color: #ffffff;
-
   font-size: 0.85rem;
-
   letter-spacing: 1.5px;
-
   text-transform: uppercase;
-
-  background:
-    rgba(255, 255, 255, 0.08);
-
-  border:
-    1px solid
-    rgba(150, 230, 255, 0.25);
-
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(150, 230, 255, 0.25);
   border-radius: 30px;
-
   backdrop-filter: blur(12px);
-
   -webkit-backdrop-filter: blur(12px);
-
-  transition:
-    opacity 0.4s ease;
-
-  animation:
-    bounceHint
-    2s
-    infinite
-    ease-in-out;
+  transition: opacity 0.4s ease;
+  animation: bounceHint 2s infinite ease-in-out;
 }
 
 
 @keyframes bounceHint {
-
   0%,
   100% {
-
-    transform:
-      translate(-50%, 0);
+    transform: translate(-50%, 0);
   }
-
   50% {
-
-    transform:
-      translate(-50%, 8px);
+    transform: translate(-50%, 8px);
   }
 }
 
 
 /* =========================================
-   PORTFOLIO CONTENT
+   PORTFOLIO CONTENT (FIXED FOR MOBILE FLOW)
 ========================================= */
 
 .portfolio-content {
-
-  position: absolute;
-
-  left: 0;
-  bottom: 0;
-
+  position: relative;
   width: 100%;
-
   min-height: 100vh;
-
   z-index: 10;
-
-  padding:
-    120px
-    10%
-    80px;
-
+  /* Pushes content down past the 600vh scroll runway so it flows naturally */
+  margin-top: 500vh; 
+  padding: 120px 10% 80px;
   background:
-
     linear-gradient(
       to bottom,
-
       rgba(0, 13, 23, 0) 0%,
-
       rgba(1, 23, 36, 0.25) 20%,
-
       rgba(2, 45, 67, 0.72) 60%,
-
       #032d43 100%
     );
 }
@@ -268,50 +185,33 @@ body {
 ========================================= */
 
 .portfolio-hero {
-
   margin-bottom: 80px;
 }
 
 
 .portfolio-hero .tagline {
-
   display: inline-block;
-
   margin-bottom: 12px;
-
   color: #8be8ff;
-
   font-size: 0.9rem;
-
   letter-spacing: 2px;
-
   text-transform: uppercase;
 }
 
 
 .portfolio-hero h1 {
-
   max-width: 900px;
-
   font-size: 3rem;
-
   font-weight: 700;
-
   line-height: 1.2;
-
   background:
-
     linear-gradient(
       135deg,
-
       #ffffff 0%,
       #d8f6ff 100%
     );
-
   -webkit-background-clip: text;
-
   -webkit-text-fill-color: transparent;
-
   background-clip: text;
 }
 
@@ -321,27 +221,20 @@ body {
 ========================================= */
 
 .intro-heading {
-
   margin-bottom: 40px;
 }
 
 
 .intro-heading h2 {
-
   margin-bottom: 8px;
-
   font-size: 2rem;
-
   font-weight: 600;
 }
 
 
 .intro-heading p {
-
   color: #d9f6ff;
-
   font-size: 1.1rem;
-
   line-height: 1.5;
 }
 
@@ -351,15 +244,8 @@ body {
 ========================================= */
 
 .portfolio-grid {
-
   display: grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(280px, 1fr)
-    );
-
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
 }
 
@@ -369,59 +255,33 @@ body {
 ========================================= */
 
 .card {
-
   padding: 32px;
-
-  background:
-    rgba(255, 255, 255, 0.07);
-
-  border:
-    1px solid
-    rgba(150, 230, 255, 0.18);
-
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(150, 230, 255, 0.18);
   border-radius: 16px;
-
   backdrop-filter: blur(16px);
-
   -webkit-backdrop-filter: blur(16px);
-
-  transition:
-    transform 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 
 .card:hover {
-
-  transform:
-    translateY(-8px);
-
-  border-color:
-    rgba(120, 225, 255, 0.7);
-
-  box-shadow:
-    0 15px 40px
-    rgba(45, 180, 220, 0.25);
+  transform: translateY(-8px);
+  border-color: rgba(120, 225, 255, 0.7);
+  box-shadow: 0 15px 40px rgba(45, 180, 220, 0.25);
 }
 
 
 .card h3 {
-
   margin-bottom: 12px;
-
   color: #ffffff;
-
   font-size: 1.35rem;
 }
 
 
 .card p {
-
   color: #e0f7ff;
-
   font-size: 0.95rem;
-
   line-height: 1.6;
 }
 
@@ -431,18 +291,14 @@ body {
 ========================================= */
 
 @media (max-width: 1024px) {
-
   .portfolio-content {
-
     padding-left: 7%;
     padding-right: 7%;
   }
 
   .portfolio-hero h1 {
-
     font-size: 2.6rem;
   }
-
 }
 
 
@@ -451,142 +307,86 @@ body {
 ========================================= */
 
 @media (max-width: 768px) {
-
   .scroll-wrapper {
-
     min-height: 500vh;
   }
 
-
   .video-container {
-
     width: 100%;
-
     height: 100dvh;
-
     min-height: 100dvh;
   }
 
-
   #sequence-canvas {
-
     width: 100%;
     height: 100%;
   }
 
-
   /* Scroll hint */
-
   .scroll-hint {
-
     bottom: 35px;
-
-    padding:
-      8px
-      16px;
-
+    padding: 8px 16px;
     font-size: 0.7rem;
-
     letter-spacing: 1.2px;
   }
 
-
   .scroll-hint svg {
-
     width: 20px;
     height: 20px;
   }
 
-
-  /* Portfolio */
-
+  /* Portfolio content mobile positioning matches scroll reduction */
   .portfolio-content {
-
-    padding:
-      80px
-      6%
-      50px;
-
+    margin-top: 400vh; 
+    padding: 80px 6% 50px;
     min-height: 100dvh;
   }
 
-
   .portfolio-hero {
-
     margin-bottom: 55px;
   }
 
-
   .portfolio-hero .tagline {
-
     font-size: 0.7rem;
-
     letter-spacing: 1.5px;
   }
 
-
   .portfolio-hero h1 {
-
     max-width: 100%;
-
-    font-size:
-      clamp(
-        2rem,
-        8vw,
-        2.7rem
-      );
-
+    font-size: clamp(2rem, 8vw, 2.7rem);
     line-height: 1.15;
   }
 
-
   .intro-heading {
-
     margin-bottom: 30px;
   }
 
-
   .intro-heading h2 {
-
     font-size: 1.6rem;
   }
 
-
   .intro-heading p {
-
     font-size: 0.95rem;
-
     line-height: 1.5;
   }
 
-
   .portfolio-grid {
-
     grid-template-columns: 1fr;
-
     gap: 1rem;
   }
 
-
   .card {
-
     padding: 24px;
-
     border-radius: 14px;
   }
 
-
   .card h3 {
-
     font-size: 1.15rem;
   }
 
-
   .card p {
-
     font-size: 0.9rem;
   }
-
 }
 
 
@@ -595,43 +395,31 @@ body {
 ========================================= */
 
 @media (max-width: 480px) {
-
   .scroll-wrapper {
-
     min-height: 450vh;
   }
 
-
   .portfolio-content {
-
+    margin-top: 350vh;
     padding-left: 5%;
     padding-right: 5%;
   }
 
-
   .portfolio-hero h1 {
-
     font-size: 2rem;
   }
 
-
   .portfolio-hero .tagline {
-
     font-size: 0.65rem;
   }
 
-
   .intro-heading h2 {
-
     font-size: 1.45rem;
   }
 
-
   .card {
-
     padding: 20px;
   }
-
 }
 
 
@@ -639,27 +427,16 @@ body {
    LANDSCAPE PHONES
 ========================================= */
 
-@media (
-  max-width: 900px
-) and (
-  orientation: landscape
-) {
-
+@media (max-width: 900px) and (orientation: landscape) {
   .video-container {
-
     height: 100dvh;
   }
 
-
   .scroll-hint {
-
     bottom: 20px;
   }
 
-
   .portfolio-content {
-
     padding-top: 60px;
   }
-
 }
