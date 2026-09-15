@@ -1,131 +1,500 @@
+/* =========================================
+   GSAP
+========================================= */
+
 gsap.registerPlugin(ScrollTrigger);
 
-const canvas = document.getElementById("sequence-canvas");
-const ctx = canvas.getContext("2d");
+
+/* =========================================
+   CANVAS
+========================================= */
+
+const canvas =
+  document.getElementById(
+    "sequence-canvas"
+  );
+
+const ctx =
+  canvas.getContext("2d");
+
+
+/* =========================================
+   SETTINGS
+========================================= */
 
 const frameCount = 239;
 
+
+/* =========================================
+   FRAME PATH
+========================================= */
+
 const currentFrame = (index) => {
+
   const frameNum = index + 1;
+
   return `./frames/frame-001 (${frameNum}).png`;
 };
 
+
+/* =========================================
+   IMAGE STORAGE
+========================================= */
+
 const images = [];
-const animationObj = { frame: 0 };
+
+
+/* =========================================
+   ANIMATION OBJECT
+========================================= */
+
+const animationObj = {
+  frame: 0
+};
+
+
+/* =========================================
+   CURRENT RENDERED FRAME
+========================================= */
+
 let activeFrame = -1;
 
+
+/* =========================================
+   CANVAS RESIZE
+========================================= */
+
 function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = window.innerWidth * dpr;
-  canvas.height = window.innerHeight * dpr;
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-  
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.scale(dpr, dpr);
+
+  /*
+    Lower DPR on mobile to improve
+    performance and reduce memory usage.
+  */
+
+  const dpr =
+    window.innerWidth <= 768
+      ? 1
+      : Math.min(
+          window.devicePixelRatio || 1,
+          2
+        );
+
+
+  const width =
+    window.innerWidth;
+
+
+  const height =
+    window.innerHeight;
+
+
+  /*
+    Internal canvas resolution
+  */
+
+  canvas.width =
+    width * dpr;
+
+  canvas.height =
+    height * dpr;
+
+
+  /*
+    CSS size
+  */
+
+  canvas.style.width =
+    "100%";
+
+  canvas.style.height =
+    "100%";
+
+
+  /*
+    Scale drawing coordinates
+  */
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+
+  /*
+    Force redraw after resize
+  */
+
+  activeFrame = -1;
+
   render(true);
+
+
+  /*
+    Recalculate ScrollTrigger
+  */
+
+  ScrollTrigger.refresh();
 }
-window.addEventListener("resize", resizeCanvas);
+
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+/* =========================================
+   RENDER FRAME
+========================================= */
 
 function render(force = false) {
-  const index = Math.min(frameCount - 1, Math.max(0, Math.round(animationObj.frame)));
-  
-  if (index === activeFrame && !force) return;
 
-  const img = images[index];
+  /*
+    Always keep frame within
+    0 → 238
+  */
 
-  if (img && img.complete && img.naturalWidth !== 0) {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+  const index =
+    Math.min(
+      frameCount - 1,
 
-    const hRatio = w / img.width;
-    const vRatio = h / img.height;
-    const ratio = Math.max(hRatio, vRatio);
-
-    const centerShiftX = (w - img.width * ratio) / 2;
-    const centerShiftY = (h - img.height * ratio) / 2;
-
-    ctx.clearRect(0, 0, w, h);
-    ctx.drawImage(
-      img,
-      0, 0, img.width, img.height,
-      centerShiftX, centerShiftY, img.width * ratio, img.height * ratio
+      Math.max(
+        0,
+        Math.round(
+          animationObj.frame
+        )
+      )
     );
-    activeFrame = index;
+
+
+  /*
+    Prevent unnecessary redraws
+  */
+
+  if (
+    index === activeFrame &&
+    !force
+  ) {
+    return;
   }
+
+
+  const img =
+    images[index];
+
+
+  /*
+    Image not ready yet
+  */
+
+  if (
+    !img ||
+    !img.complete ||
+    img.naturalWidth === 0
+  ) {
+    return;
+  }
+
+
+  const width =
+    window.innerWidth;
+
+
+  const height =
+    window.innerHeight;
+
+
+  const imageWidth =
+    img.naturalWidth;
+
+
+  const imageHeight =
+    img.naturalHeight;
+
+
+  /*
+    COVER calculation
+
+    This fills the entire viewport
+    without stretching the image.
+  */
+
+  const scale =
+    Math.max(
+      width / imageWidth,
+      height / imageHeight
+    );
+
+
+  const drawWidth =
+    imageWidth * scale;
+
+
+  const drawHeight =
+    imageHeight * scale;
+
+
+  /*
+    Center image
+  */
+
+  const offsetX =
+    (width - drawWidth) / 2;
+
+
+  const offsetY =
+    (height - drawHeight) / 2;
+
+
+  /*
+    Clear canvas
+  */
+
+  ctx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  /*
+    Draw frame
+  */
+
+  ctx.drawImage(
+
+    img,
+
+    0,
+    0,
+    imageWidth,
+    imageHeight,
+
+    offsetX,
+    offsetY,
+
+    drawWidth,
+    drawHeight
+  );
+
+
+  activeFrame =
+    index;
 }
 
-// Preload sequence frames
-for (let i = 0; i < frameCount; i++) {
-  const img = new Image();
-  img.src = currentFrame(i);
+
+/* =========================================
+   PRELOAD ALL 239 FRAMES
+========================================= */
+
+for (
+  let i = 0;
+  i < frameCount;
+  i++
+) {
+
+  const img =
+    new Image();
+
+
+  /*
+    Load frame
+  */
+
+  img.src =
+    currentFrame(i);
+
+
+  /*
+    First frame
+  */
+
   if (i === 0) {
-    img.onload = () => resizeCanvas();
+
+    img.onload = () => {
+
+      resizeCanvas();
+
+    };
+
   }
+
+
+  /*
+    Render loaded frame
+    if it is currently needed.
+  */
+
+  img.onload = () => {
+
+    if (
+      Math.round(
+        animationObj.frame
+      ) === i
+    ) {
+
+      render(true);
+
+    }
+
+  };
+
+
+  /*
+    Error handling
+  */
+
+  img.onerror = () => {
+
+    console.warn(
+      "Failed to load:",
+      currentFrame(i)
+    );
+
+  };
+
+
   images.push(img);
 }
 
-// 1. SEQUENCE TIMELINE WITH INTRO HOLD / PAUSE ON LAST FRAME
-const sequenceTL = gsap.timeline({
-  scrollTrigger: {
-    trigger: "#scroll-wrapper",
-    start: "top top",
-    end: "70% bottom", // Finish frame sequence earlier to hold end frame
-    scrub: 0.3,
-    pin: "#video-container",
-    anticipatePin: 1
+
+/* =========================================
+   SCROLL FRAME ANIMATION
+========================================= */
+
+gsap.to(
+  animationObj,
+  {
+
+    frame:
+      frameCount - 1,
+
+    ease:
+      "none",
+
+    scrollTrigger: {
+
+      trigger:
+        "#scroll-wrapper",
+
+      start:
+        "top top",
+
+      end:
+        "bottom bottom",
+
+      scrub:
+        0.3,
+
+      anticipatePin:
+        1,
+
+
+      /*
+        Hold Frame 239 during
+        final 12% of scrolling.
+      */
+
+      onUpdate:
+        (self) => {
+
+          const progress =
+            self.progress;
+
+
+          const holdStart =
+            0.88;
+
+
+          if (
+            progress >=
+            holdStart
+          ) {
+
+            animationObj.frame =
+              frameCount - 1;
+
+          } else {
+
+            const normalizedProgress =
+              progress /
+              holdStart;
+
+
+            animationObj.frame =
+              normalizedProgress *
+              (frameCount - 1);
+          }
+
+        }
+    }
+
   }
-});
+);
 
-sequenceTL.to(animationObj, {
-  frame: frameCount - 1,
-  ease: "none",
-  duration: 1
-});
 
-// 2. INFOGRAPHIC RIBBONS ENTRANCE ANIMATION
-gsap.from(".infographic-ribbon", {
-  scrollTrigger: {
-    trigger: ".about-infographic-section",
-    start: "top 70%",
-    toggleActions: "play none none reverse"
-  },
-  x: -100,
-  opacity: 0,
-  duration: 0.9,
-  stagger: 0.2,
-  ease: "power3.out"
-});
+/* =========================================
+   SCROLL HINT FADE
+========================================= */
 
-// 3. VERTICAL SHUTTER BARS ENTRANCE ANIMATION
-gsap.from(".shutter-bar", {
-  scrollTrigger: {
-    trigger: ".split-shutter-container",
-    start: "top 80%",
-    toggleActions: "play none none reverse"
-  },
-  y: 80,
-  opacity: 0,
-  duration: 1,
-  stagger: 0.15,
-  ease: "power4.out"
-});
+gsap.to(
+  "#scroll-hint",
+  {
 
-// Fade out scroll hint badge
-gsap.to("#scroll-hint", {
-  opacity: 0,
-  ease: "power1.out",
-  scrollTrigger: {
-    trigger: "#scroll-wrapper",
-    start: "top top",
-    end: "top -50px",
-    scrub: true
+    opacity: 0,
+
+    ease:
+      "power1.out",
+
+    scrollTrigger: {
+
+      trigger:
+        "#scroll-wrapper",
+
+      start:
+        "top top",
+
+      end:
+        "top -120px",
+
+      scrub:
+        true
+
+    }
+
   }
-});
+);
 
-gsap.ticker.add(() => render());
 
-window.addEventListener("load", () => {
-  ScrollTrigger.refresh();
-  resizeCanvas();
-});
+/* =========================================
+   RENDER LOOP
+========================================= */
+
+gsap.ticker.add(
+  () => {
+
+    render();
+
+  }
+);
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    resizeCanvas();
+
+    ScrollTrigger.refresh();
+
+  }
+);
