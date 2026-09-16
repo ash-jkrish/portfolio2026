@@ -1,461 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+    <title>Ashly — Visual Designer</title>
 
-  <meta
-    name="theme-color"
-    content="#011724"
-  />
+    <link rel="stylesheet" href="style.css">
 
-  <title>Ashly — Visual Designer</title>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- GSAP -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
-    defer
-  ></script>
-
-  <!-- ScrollTrigger -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
-    defer
-  ></script>
+    <!-- ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 
 <body>
 
-  <!-- =====================================================
-       PAGE
-  ====================================================== -->
+<!-- =========================================================
+     INTRO / 239 FRAME SCROLL SEQUENCE
+========================================================= -->
 
-  <div class="page">
+<section id="intro-section" class="intro-section">
 
+    <div class="intro-stage">
 
-    <!-- =====================================================
-         INTRO / 239 FRAME SCROLL SEQUENCE
-    ====================================================== -->
+        <canvas id="sequence-canvas"></canvas>
 
-    <section
-      class="intro-section"
-      id="intro-section"
-    >
-
-      <div
-        class="intro-stage"
-        id="intro-stage"
-      >
-
-        <canvas
-          id="sequence-canvas"
-          aria-label="Ashly visual designer introduction animation"
-        ></canvas>
-
-
-        <!-- Loading -->
-
-        <div
-          class="loader"
-          id="loader"
-        >
-
-          <div class="loader-content">
-
-            <div
-              class="loader-number"
-              id="loader-number"
-            >
-              0%
+        <div id="loader" class="loader">
+            <div class="loader-text">
+                Loading <span id="loader-percent">0%</span>
             </div>
 
             <div class="loader-bar">
-
-              <div
-                class="loader-progress"
-                id="loader-progress"
-              ></div>
-
+                <div id="loader-progress"></div>
             </div>
-
-            <div class="loader-text">
-              Loading visual experience
-            </div>
-
-          </div>
-
         </div>
 
-
-        <!-- Scroll Hint -->
-
-        <div
-          class="scroll-hint"
-          id="scroll-hint"
-        >
-
-          <span>Scroll Down</span>
-
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M12 5v14"></path>
-            <path d="m19 12-7 7-7-7"></path>
-          </svg>
-
+        <div id="scroll-hint" class="scroll-hint">
+            <span>SCROLL TO EXPLORE</span>
+            <div class="scroll-arrow">↓</div>
         </div>
 
-      </div>
+    </div>
 
-    </section>
+</section>
 
 
+<!-- =========================================================
+     ABOUT / PORTFOLIO INTRO
+========================================================= -->
 
-    <!-- =====================================================
-         ABOUT SECTION
-    ====================================================== -->
+<main class="portfolio-content">
 
-    <main class="portfolio-content">
-
-      <section class="portfolio-hero">
+    <section class="portfolio-hero">
 
         <div class="about-bg-wrapper">
 
+            <!-- Decorative glow -->
+            <div class="about-glow about-glow-one"></div>
+            <div class="about-glow about-glow-two"></div>
 
-          <!-- ABOUT HEADER -->
-
-          <div class="about-content">
-
-            <div class="section-label">
-
-              <span class="section-number">
+            <!-- Small top label -->
+            <div class="about-number">
                 02
-              </span>
-
-              <span class="section-line"></span>
-
-              <span class="section-title">
-                About Me
-              </span>
-
+                <span>ABOUT ME</span>
             </div>
 
 
-            <h1 class="about-heading">
-              About Me
-            </h1>
+            <!-- =================================================
+                 ABOUT CONTENT
+            ================================================= -->
+
+            <div class="about-content">
+
+                <p class="about-eyebrow">
+                    VISUAL DESIGNER / CREATIVE / DIGITAL
+                </p>
+
+                <h1 class="about-heading">
+                    About<br>
+                    <span>Me.</span>
+                </h1>
+
+                <p class="about-description">
+                    I'm <strong>Ashly Thomas</strong>, a Visual Designer and
+                    B.Tech Computer Science graduate who enjoys combining
+                    creativity, visual storytelling and technology.
+                    I create posters, brand identities, motion graphics,
+                    videos, digital experiences and websites — bringing
+                    design and code together to create meaningful visual
+                    experiences.
+                </p>
+
+                <p class="about-description secondary">
+                    Explore the different sides of my creative work below.
+                </p>
 
 
-            <p class="about-description">
+                <!-- =================================================
+                     CREATIVE SKILL / PORTFOLIO ORBIT
+                ================================================= -->
 
-              A visual designer driven by curiosity,
-              creativity, and technology.
+                <div class="skills-header">
 
-              I work across
+                    <span class="skills-line"></span>
 
-              <strong>
-                graphic design, motion graphics,
-                video editing, web design, and videography
-              </strong>,
+                    <span class="skills-title">
+                        EXPLORE MY WORK
+                    </span>
 
-              creating visuals that communicate ideas
-              with purpose.
+                    <span class="skills-line"></span>
 
-              Beyond traditional design, I'm fascinated by
-
-              <strong>
-                AI tools and AI-driven projects
-              </strong>,
-
-              exploring new technologies and creative
-              possibilities to shape smarter, more
-              innovative visual experiences.
-
-            </p>
-
-          </div>
+                </div>
 
 
-
-          <!-- =================================================
-               SKILL AREA
-          ================================================== -->
-
-          <div class="game-icons-container">
+                <div class="game-icons-container">
 
 
-            <!-- Graphic Design -->
+                    <!-- =================================================
+                         01 CREATIVE POSTERS
+                    ================================================= -->
 
-            <div
-              class="game-skill-circle float-game-1 pos-circle-1"
-              title="Graphic Design"
-              data-skill="Graphic Design"
-            >
+                    <a
+                        href="creative-posters.html"
+                        class="game-skill-circle skill-1"
+                        aria-label="Creative Posters"
+                        title="Creative Posters"
+                    >
 
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+                        <span class="skill-orbit"></span>
 
-                <path d="M12 20h9"></path>
+                        <span class="skill-icon">
 
-                <path
-                  d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
-                ></path>
+                            <!-- Poster Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <rect x="15" y="9" width="34" height="46" rx="3"/>
+                                <rect x="21" y="16" width="22" height="15" rx="2"/>
+                                <circle cx="28" cy="22" r="3"/>
+                                <path d="M22 27l6-5 5 4 4-3 6 7"/>
+                                <path d="M22 37h20"/>
+                                <path d="M22 43h14"/>
+                                <path d="M22 49h17"/>
+                            </svg>
 
-              </svg>
+                        </span>
 
-              <span>Graphic</span>
+                        <span class="skill-number">01</span>
+
+                        <span class="skill-label">
+                            CREATIVE<br>POSTERS
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         02 BRAND DESIGN
+                    ================================================= -->
+
+                    <a
+                        href="brand-design.html"
+                        class="game-skill-circle skill-2"
+                        aria-label="Brand Design"
+                        title="Brand Design"
+                    >
+
+                        <span class="skill-orbit"></span>
+
+                        <span class="skill-icon">
+
+                            <!-- Brand Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <path d="M32 8l22 10v16c0 12-9 19-22 23C19 53 10 46 10 34V18z"/>
+                                <path d="M21 32h22"/>
+                                <path d="M32 21v22"/>
+                                <circle cx="32" cy="32" r="6"/>
+                            </svg>
+
+                        </span>
+
+                        <span class="skill-number">02</span>
+
+                        <span class="skill-label">
+                            BRAND<br>DESIGN
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         03 LOGO DESIGN
+                    ================================================= -->
+
+                    <a
+                        href="logo-design.html"
+                        class="game-skill-circle skill-3"
+                        aria-label="Logo Design"
+                        title="Logo Design"
+                    >
+
+                        <span class="skill-orbit"></span>
+
+                        <span class="skill-icon">
+
+                            <!-- Logo / Pen Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <path d="M13 50l4-15L42 10l12 12-25 25z"/>
+                                <path d="M35 17l12 12"/>
+                                <path d="M17 35l12 12"/>
+                                <path d="M13 50l11-3"/>
+                            </svg>
+
+                        </span>
+
+                        <span class="skill-number">03</span>
+
+                        <span class="skill-label">
+                            LOGO<br>DESIGN
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         04 MOTION GRAPHICS
+                    ================================================= -->
+
+                    <a
+                        href="motion-graphics.html"
+                        class="game-skill-circle skill-4"
+                        aria-label="Motion Graphics"
+                        title="Motion Graphics"
+                    >
+
+                        <span class="skill-orbit"></span>
+
+                        <span class="skill-icon">
+
+                            <!-- Motion Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <path d="M9 20h14"/>
+                                <path d="M5 32h18"/>
+                                <path d="M9 44h14"/>
+                                <path d="M28 17l25 15-25 15z"/>
+                            </svg>
+
+                        </span>
+
+                        <span class="skill-number">04</span>
+
+                        <span class="skill-label">
+                            MOTION<br>GRAPHICS
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         05 VIDEOGRAPHY
+                    ================================================= -->
+
+                    <a
+                        href="videography.html"
+                        class="game-skill-circle skill-5"
+                        aria-label="Videography"
+                        title="Videography"
+                    >
+
+                        <span class="skill-orbit"></span>
+
+                        <span class="skill-icon">
+
+                            <!-- Camera Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <rect x="8" y="19" width="48" height="32" rx="5"/>
+                                <path d="M19 19l4-8h15l5 8"/>
+                                <circle cx="32" cy="35" r="9"/>
+                                <circle cx="32" cy="35" r="4"/>
+                            </svg>
+
+                        </span>
+
+                        <span class="skill-number">05</span>
+
+                        <span class="skill-label">
+                            VIDEO<br>GRAPHY
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         06 VIDEO EDITING
+                    ================================================= -->
+
+                    <a
+                        href="video-editing.html"
+                        class="game-skill-circle skill-6"
+                        aria-label="Video Editing"
+                        title="Video Editing"
+                    >
+
+                        <span class="skill-orbit"></span>
+
+                        <span class="skill-icon">
+
+                            <!-- Editing / Timeline Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <rect x="9" y="13" width="46" height="38" rx="4"/>
+                                <path d="M9 25h46"/>
+                                <path d="M19 25v26"/>
+                                <path d="M37 25v26"/>
+                                <path d="M19 33h18"/>
+                                <path d="M19 41h10"/>
+                            </svg>
+
+                        </span>
+
+                        <span class="skill-number">06</span>
+
+                        <span class="skill-label">
+                            VIDEO<br>EDITING
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- =================================================
+                         07 WEB DESIGN
+                    ================================================= -->
+
+                    <a
+                        href="web-design.html"
+                        class="game-skill-circle skill-7"
+                        aria-label="Web Design"
+                        title="Web Design"
+                    >
+
+                        <span class="skill-orbit"></span>
+
+                        <span class="skill-icon">
+
+                            <!-- Code / Web Icon -->
+                            <svg viewBox="0 0 64 64" aria-hidden="true">
+                                <rect x="8" y="11" width="48" height="42" rx="5"/>
+                                <path d="M8 23h48"/>
+                                <path d="M21 35l-7 5 7 5"/>
+                                <path d="M43 35l7 5-7 5"/>
+                                <path d="M36 32l-8 16"/>
+                            </svg>
+
+                        </span>
+
+                        <span class="skill-number">07</span>
+
+                        <span class="skill-label">
+                            WEB<br>DESIGN
+                        </span>
+
+                        <span class="skill-explore">
+                            EXPLORE →
+                        </span>
+
+                    </a>
+
+
+                </div>
 
             </div>
-
-
-
-            <!-- Motion -->
-
-            <div
-              class="game-skill-circle float-game-2 pos-circle-2"
-              title="Motion Graphics"
-              data-skill="Motion Graphics"
-            >
-
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                ></circle>
-
-                <polygon
-                  points="10 8 16 12 10 16 10 8"
-                ></polygon>
-
-              </svg>
-
-              <span>Motion</span>
-
-            </div>
-
-
-
-            <!-- Videography -->
-
-            <div
-              class="game-skill-circle float-game-3 pos-circle-3"
-              title="Videography"
-              data-skill="Videography"
-            >
-
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-
-                <path
-                  d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-                ></path>
-
-                <circle
-                  cx="12"
-                  cy="13"
-                  r="4"
-                ></circle>
-
-              </svg>
-
-              <span>Video</span>
-
-            </div>
-
-
-
-            <!-- Editing -->
-
-            <div
-              class="game-skill-circle float-game-2 pos-circle-4"
-              title="Video Editing"
-              data-skill="Video Editing"
-            >
-
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-
-                <rect
-                  x="2"
-                  y="6"
-                  width="20"
-                  height="12"
-                  rx="2"
-                ></rect>
-
-                <path d="m10 10 5 2-5 2z"></path>
-
-                <line
-                  x1="2"
-                  y1="10"
-                  x2="22"
-                  y2="10"
-                ></line>
-
-              </svg>
-
-              <span>Editing</span>
-
-            </div>
-
-
-
-            <!-- AI -->
-
-            <div
-              class="game-skill-circle float-game-1 pos-circle-5"
-              title="AI Tools & Projects"
-              data-skill="AI Tools"
-            >
-
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-
-                <rect
-                  x="4"
-                  y="4"
-                  width="16"
-                  height="16"
-                  rx="2"
-                ></rect>
-
-                <rect
-                  x="9"
-                  y="9"
-                  width="6"
-                  height="6"
-                ></rect>
-
-                <line x1="9" y1="1" x2="9" y2="4"></line>
-                <line x1="15" y1="1" x2="15" y2="4"></line>
-
-                <line x1="9" y1="20" x2="9" y2="23"></line>
-                <line x1="15" y1="20" x2="15" y2="23"></line>
-
-                <line x1="20" y1="9" x2="23" y2="9"></line>
-                <line x1="20" y1="15" x2="23" y2="15"></line>
-
-                <line x1="1" y1="9" x2="4" y2="9"></line>
-                <line x1="1" y1="15" x2="4" y2="15"></line>
-
-              </svg>
-
-              <span>AI Tools</span>
-
-            </div>
-
-
-
-            <!-- Web -->
-
-            <div
-              class="game-skill-circle float-game-3 pos-circle-6"
-              title="Web Design"
-              data-skill="Web Design"
-            >
-
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-
-                <rect
-                  x="2"
-                  y="3"
-                  width="20"
-                  height="14"
-                  rx="2"
-                ></rect>
-
-                <line
-                  x1="8"
-                  y1="21"
-                  x2="16"
-                  y2="21"
-                ></line>
-
-                <line
-                  x1="12"
-                  y1="17"
-                  x2="12"
-                  y2="21"
-                ></line>
-
-              </svg>
-
-              <span>Web</span>
-
-            </div>
-
-          </div>
 
         </div>
 
-      </section>
+    </section>
 
-    </main>
-
-  </div>
+</main>
 
 
-  <!-- =====================================================
-       SCRIPT
-  ====================================================== -->
-
-  <script src="script.js" defer></script>
+<script src="script.js"></script>
 
 </body>
-
 </html>

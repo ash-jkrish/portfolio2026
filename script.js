@@ -1,1101 +1,729 @@
-/* =========================================================
-   ASHLY PORTFOLIO
-   RESPONSIVE 239-FRAME SCROLL ENGINE
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =======================================================
-     GSAP
-  ======================================================== */
+    /* =========================================================
+       GSAP
+    ========================================================= */
 
-  gsap.registerPlugin(ScrollTrigger);
-
-
-  /* =======================================================
-     ELEMENTS
-  ======================================================== */
-
-  const introSection =
-    document.getElementById("intro-section");
-
-  const introStage =
-    document.getElementById("intro-stage");
-
-  const canvas =
-    document.getElementById("sequence-canvas");
-
-  const ctx =
-    canvas.getContext("2d", {
-      alpha: false,
-      desynchronized: true
-    });
-
-  const loader =
-    document.getElementById("loader");
-
-  const loaderNumber =
-    document.getElementById("loader-number");
-
-  const loaderProgress =
-    document.getElementById("loader-progress");
-
-  const scrollHint =
-    document.getElementById("scroll-hint");
+    gsap.registerPlugin(ScrollTrigger);
 
 
-  /* =======================================================
-     SETTINGS
-  ======================================================== */
+    /* =========================================================
+       INTRO ELEMENTS
+    ========================================================= */
 
-  const FRAME_COUNT = 239;
+    const introSection =
+        document.querySelector("#intro-section");
 
-  const FRAME_PATH = "./frames/frame-001 (INDEX).png";
+    const canvas =
+        document.querySelector("#sequence-canvas");
 
-  /*
-    Maximum DPR.
+    const ctx =
+        canvas.getContext("2d", {
+            alpha: false
+        });
 
-    Limiting DPR is important on high-density phones.
-    Rendering a 4x canvas can be unnecessarily expensive.
-  */
+    const loader =
+        document.querySelector("#loader");
 
-  const MAX_DPR = 1.75;
+    const loaderPercent =
+        document.querySelector("#loader-percent");
 
+    const loaderProgress =
+        document.querySelector("#loader-progress");
 
-  /*
-    Animation state.
-  */
-
-  const state = {
-
-    frame: 0,
-
-    targetFrame: 0,
-
-    currentFrame: -1,
-
-    isReady: false,
-
-    isRendering: false,
-
-    viewportWidth: 0,
-
-    viewportHeight: 0,
-
-    dpr: 1,
-
-    imageScale: 1,
-
-    offsetX: 0,
-
-    offsetY: 0
-
-  };
+    const scrollHint =
+        document.querySelector("#scroll-hint");
 
 
-  /* =======================================================
-     IMAGE STORAGE
-  ======================================================== */
+    /* =========================================================
+       FRAME SETTINGS
+    ========================================================= */
 
-  const images =
-    new Array(FRAME_COUNT);
+    const FRAME_COUNT = 239;
 
-  const loaded =
-    new Uint8Array(FRAME_COUNT);
-
-  let loadedCount = 0;
+    const FRAME_PATH =
+        "./frames/frame-001 (INDEX).png";
 
 
-  /* =======================================================
-     FRAME PATH
-  ======================================================== */
+    /* =========================================================
+       STATE
+    ========================================================= */
 
-  function framePath(index) {
-
-    const frameNumber =
-      index + 1;
-
-    return FRAME_PATH.replace(
-      "INDEX",
-      frameNumber
-    );
-  }
+    const state = {
+        currentFrame: 0,
+        targetFrame: 0
+    };
 
 
-  /* =======================================================
-     UPDATE LOADER
-  ======================================================== */
+    /* =========================================================
+       IMAGE STORAGE
+    ========================================================= */
 
-  function updateLoader() {
+    const images =
+        new Array(FRAME_COUNT);
 
-    const percentage =
-      Math.round(
-        (loadedCount / FRAME_COUNT) * 100
-      );
-
-    loaderNumber.textContent =
-      `${percentage}%`;
-
-    loaderProgress.style.width =
-      `${percentage}%`;
-
-  }
+    const loaded =
+        new Array(FRAME_COUNT).fill(false);
 
 
-  /* =======================================================
-     LOAD SINGLE IMAGE
-  ======================================================== */
+    let canvasWidth = 0;
+    let canvasHeight = 0;
 
-  function loadImage(index) {
+    let resizeTimer = null;
 
-    return new Promise((resolve) => {
 
-      const img = new Image();
+    /* =========================================================
+       FRAME PATH
+    ========================================================= */
 
-      img.decoding = "async";
+    function getFramePath(index) {
 
-      img.onload = () => {
+        return FRAME_PATH.replace(
+            "INDEX",
+            index + 1
+        );
 
-        images[index] = img;
+    }
 
-        if (!loaded[index]) {
 
-          loaded[index] = 1;
+    /* =========================================================
+       LOAD IMAGE
+    ========================================================= */
 
-          loadedCount++;
+    function loadFrame(index) {
 
-          updateLoader();
+        return new Promise((resolve) => {
 
+            if (
+                index < 0 ||
+                index >= FRAME_COUNT
+            ) {
+                resolve(null);
+                return;
+            }
+
+            if (loaded[index]) {
+
+                resolve(images[index]);
+
+                return;
+            }
+
+
+            const img = new Image();
+
+            img.decoding = "async";
+
+            img.onload = () => {
+
+                images[index] = img;
+
+                loaded[index] = true;
+
+                resolve(img);
+            };
+
+            img.onerror = () => {
+
+                console.warn(
+                    "Could not load frame:",
+                    getFramePath(index)
+                );
+
+                resolve(null);
+            };
+
+            img.src = getFramePath(index);
+
+        });
+
+    }
+
+
+    /* =========================================================
+       DRAW IMAGE WITH COVER
+    ========================================================= */
+
+    function drawCover(
+        image,
+        width,
+        height
+    ) {
+
+        if (!image) return;
+
+        const imageRatio =
+            image.width / image.height;
+
+        const canvasRatio =
+            width / height;
+
+        let drawWidth;
+        let drawHeight;
+
+        let offsetX;
+        let offsetY;
+
+
+        if (imageRatio > canvasRatio) {
+
+            drawHeight = height;
+
+            drawWidth =
+                height * imageRatio;
+
+            offsetX =
+                (width - drawWidth) / 2;
+
+            offsetY = 0;
+
+        } else {
+
+            drawWidth = width;
+
+            drawHeight =
+                width / imageRatio;
+
+            offsetX = 0;
+
+            offsetY =
+                (height - drawHeight) / 2;
         }
 
-        resolve(img);
 
-      };
-
-
-      img.onerror = () => {
-
-        console.warn(
-          "Could not load:",
-          framePath(index)
+        ctx.drawImage(
+            image,
+            offsetX,
+            offsetY,
+            drawWidth,
+            drawHeight
         );
-
-        resolve(null);
-
-      };
-
-
-      img.src =
-        framePath(index);
-
-    });
-
-  }
-
-
-  /* =======================================================
-     LOAD FIRST FRAME
-  ======================================================== */
-
-  async function loadFirstFrame() {
-
-    await loadImage(0);
-
-    state.isReady = true;
-
-    resizeCanvas();
-
-    renderFrame(0);
-
-  }
-
-
-  /* =======================================================
-     PROGRESSIVE PRELOAD
-  ======================================================== */
-
-  async function preloadFrames() {
-
-    /*
-      First load the first frame immediately.
-      This allows the page to become visually useful
-      without waiting for all 239 images.
-    */
-
-    await loadFirstFrame();
-
-
-    /*
-      Load remaining images in small batches.
-
-      This prevents the browser from attempting to
-      decode 239 images simultaneously.
-    */
-
-    const BATCH_SIZE = 8;
-
-    for (
-      let start = 1;
-      start < FRAME_COUNT;
-      start += BATCH_SIZE
-    ) {
-
-      const batch = [];
-
-      const end =
-        Math.min(
-          start + BATCH_SIZE,
-          FRAME_COUNT
-        );
-
-      for (
-        let i = start;
-        i < end;
-        i++
-      ) {
-
-        batch.push(
-          loadImage(i)
-        );
-
-      }
-
-      await Promise.all(batch);
-
-      /*
-        Allow the browser a tiny opportunity
-        to breathe between batches.
-      */
-
-      await new Promise(
-        resolve =>
-          requestAnimationFrame(resolve)
-      );
-
-    }
-
-  }
-
-
-  /* =======================================================
-     CANVAS RESIZE
-  ======================================================== */
-
-  function resizeCanvas() {
-
-    const width =
-      window.visualViewport
-        ? window.visualViewport.width
-        : window.innerWidth;
-
-    const height =
-      window.visualViewport
-        ? window.visualViewport.height
-        : window.innerHeight;
-
-
-    state.viewportWidth = width;
-    state.viewportHeight = height;
-
-
-    /*
-      Reduce DPR on very small devices.
-
-      This is important for performance.
-    */
-
-    const rawDpr =
-      window.devicePixelRatio || 1;
-
-    state.dpr =
-      Math.min(
-        rawDpr,
-        MAX_DPR
-      );
-
-
-    /*
-      Actual internal canvas resolution.
-    */
-
-    canvas.width =
-      Math.round(
-        width * state.dpr
-      );
-
-    canvas.height =
-      Math.round(
-        height * state.dpr
-      );
-
-
-    /*
-      CSS resolution.
-    */
-
-    canvas.style.width =
-      `${width}px`;
-
-    canvas.style.height =
-      `${height}px`;
-
-
-    /*
-      Reset transform.
-
-      Everything below this point uses
-      CSS-pixel coordinates.
-    */
-
-    ctx.setTransform(
-      state.dpr,
-      0,
-      0,
-      state.dpr,
-      0,
-      0
-    );
-
-
-    /*
-      Recalculate image geometry.
-    */
-
-    calculateImageGeometry();
-
-
-    /*
-      Force current frame render.
-    */
-
-    state.currentFrame = -1;
-
-    requestRender();
-
-  }
-
-
-  /* =======================================================
-     IMAGE GEOMETRY
-  ======================================================== */
-
-  function calculateImageGeometry() {
-
-    const img =
-      images[
-        Math.round(state.frame)
-      ] ||
-      images[0];
-
-
-    if (
-      !img ||
-      !img.naturalWidth ||
-      !img.naturalHeight
-    ) {
-
-      return;
-
     }
 
 
-    const viewportWidth =
-      state.viewportWidth;
-
-    const viewportHeight =
-      state.viewportHeight;
-
-    const imageWidth =
-      img.naturalWidth;
-
-    const imageHeight =
-      img.naturalHeight;
-
-
-    /*
-      Cover scaling.
-
-      This ensures the frame always fills
-      the entire viewport.
-    */
-
-    const scale =
-      Math.max(
-        viewportWidth / imageWidth,
-        viewportHeight / imageHeight
-      );
-
-
-    const drawWidth =
-      imageWidth * scale;
-
-    const drawHeight =
-      imageHeight * scale;
-
-
-    /*
-      Center the image.
-    */
-
-    const offsetX =
-      (viewportWidth - drawWidth) / 2;
-
-    const offsetY =
-      (viewportHeight - drawHeight) / 2;
-
-
-    state.imageScale =
-      scale;
-
-    state.offsetX =
-      offsetX;
-
-    state.offsetY =
-      offsetY;
-
-  }
-
-
-  /* =======================================================
-     DRAW FRAME
-  ======================================================== */
-
-  function renderFrame(frameIndex) {
-
-    if (!state.isReady) {
-      return;
-    }
-
-
-    /*
-      Clamp frame.
-    */
-
-    const index =
-      Math.max(
-        0,
-        Math.min(
-          FRAME_COUNT - 1,
-          Math.round(frameIndex)
-        )
-      );
-
-
-    /*
-      If the requested frame isn't loaded yet,
-      use the nearest loaded frame.
-    */
-
-    let img =
-      images[index];
-
-
-    if (
-      !img ||
-      !img.complete ||
-      !img.naturalWidth
-    ) {
-
-      /*
-        Search backwards for the closest loaded frame.
-      */
-
-      for (
-        let i = index;
-        i >= 0;
-        i--
-      ) {
-
-        if (
-          images[i] &&
-          images[i].complete &&
-          images[i].naturalWidth
-        ) {
-
-          img =
-            images[i];
-
-          break;
-
-        }
-
-      }
-
-    }
-
-
-    if (
-      !img ||
-      !img.naturalWidth
-    ) {
-
-      return;
-
-    }
-
-
-    /*
-      Recalculate geometry using
-      the actual frame being drawn.
-    */
-
-    const width =
-      state.viewportWidth;
-
-    const height =
-      state.viewportHeight;
-
-    const imageWidth =
-      img.naturalWidth;
-
-    const imageHeight =
-      img.naturalHeight;
-
-
-    const scale =
-      Math.max(
-        width / imageWidth,
-        height / imageHeight
-      );
-
-
-    const drawWidth =
-      imageWidth * scale;
-
-    const drawHeight =
-      imageHeight * scale;
-
-
-    const offsetX =
-      (width - drawWidth) / 2;
-
-    const offsetY =
-      (height - drawHeight) / 2;
-
-
-    /*
-      Clear canvas.
-    */
-
-    ctx.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-
-
-    /*
-      Draw frame.
-    */
-
-    ctx.drawImage(
-      img,
-      offsetX,
-      offsetY,
-      drawWidth,
-      drawHeight
-    );
-
-
-    state.currentFrame =
-      index;
-
-  }
-
-
-  /* =======================================================
-     REQUEST RENDER
-  ======================================================== */
-
-  function requestRender() {
-
-    if (state.isRendering) {
-      return;
-    }
-
-    state.isRendering = true;
-
-
-    requestAnimationFrame(() => {
-
-      state.isRendering = false;
-
-      const target =
-        Math.round(
-          state.targetFrame
-        );
-
-
-      if (
-        target !== state.currentFrame
-      ) {
-
-        renderFrame(target);
-
-      }
-
-    });
-
-  }
-
-
-  /* =======================================================
-     RESPONSIVE INTRO HEIGHT
-  ======================================================== */
-
-  function getIntroHeight() {
-
-    const width =
-      window.innerWidth;
-
-    /*
-      Desktop
-    */
-
-    if (width > 1200) {
-
-      return "500vh";
-
-    }
-
-
-    /*
-      Laptop / large tablet
-    */
-
-    if (width > 768) {
-
-      return "450vh";
-
-    }
-
-
-    /*
-      Mobile
-    */
-
-    if (width > 430) {
-
-      return "400vh";
-
-    }
-
-
-    /*
-      Small phones
-    */
-
-    return "380vh";
-
-  }
-
-
-  function updateIntroHeight() {
-
-    introSection.style.height =
-      getIntroHeight();
-
-  }
-
-
-  /* =======================================================
-     SCROLL → FRAME
-  ======================================================== */
-
-  function createScrollAnimation() {
-
-    /*
-      Kill existing triggers if this function
-      is called again after resize.
-    */
-
-    ScrollTrigger.getAll().forEach(
-      trigger => {
-
-        if (
-          trigger.vars &&
-          trigger.vars.id ===
-          "frameSequence"
-        ) {
-
-          trigger.kill();
-
-        }
-
-      }
-    );
-
-
-    /*
-      Reset frame.
-    */
-
-    state.targetFrame = 0;
-
-
-    gsap.to(state, {
-
-      targetFrame:
-        FRAME_COUNT - 1,
-
-      ease: "none",
-
-      scrollTrigger: {
-
-        id: "frameSequence",
-
-        trigger:
-          introSection,
-
-        start:
-          "top top",
-
-        end:
-          "bottom bottom",
-
-        scrub:
-          0.12,
-
-        invalidateOnRefresh:
-          true,
-
-        onUpdate(self) {
-
-          /*
-            Direct 0 → 238 mapping.
-          */
-
-          state.targetFrame =
-            self.progress *
-            (FRAME_COUNT - 1);
-
-
-          requestRender();
-
-
-          /*
-            Hide scroll hint after
-            user starts scrolling.
-          */
-
-          if (
-            self.progress > 0.015
-          ) {
-
-            gsap.to(
-              scrollHint,
-              {
-                opacity: 0,
-                duration: 0.25,
-                overwrite: true
-              }
+    /* =========================================================
+       RESIZE CANVAS
+    ========================================================= */
+
+    function resizeCanvas() {
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        const dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                1.75
             );
 
-          }
 
-        },
+        canvasWidth =
+            rect.width;
 
-        onLeave() {
+        canvasHeight =
+            rect.height;
 
-          state.targetFrame =
-            FRAME_COUNT - 1;
 
-          requestRender();
+        canvas.width =
+            Math.round(
+                canvasWidth * dpr
+            );
 
-        },
+        canvas.height =
+            Math.round(
+                canvasHeight * dpr
+            );
 
-        onEnterBack() {
 
-          gsap.to(
-            scrollHint,
-            {
-              opacity: 0,
-              duration: 0.2
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
+
+
+        renderFrame(
+            Math.round(
+                state.currentFrame
+            )
+        );
+    }
+
+
+    /* =========================================================
+       RENDER FRAME
+    ========================================================= */
+
+    function renderFrame(index) {
+
+        index =
+            Math.max(
+                0,
+                Math.min(
+                    FRAME_COUNT - 1,
+                    index
+                )
+            );
+
+
+        const image =
+            images[index];
+
+
+        if (!image) return;
+
+
+        ctx.clearRect(
+            0,
+            0,
+            canvasWidth,
+            canvasHeight
+        );
+
+
+        drawCover(
+            image,
+            canvasWidth,
+            canvasHeight
+        );
+    }
+
+
+    /* =========================================================
+       ANIMATION LOOP
+    ========================================================= */
+
+    function animationLoop() {
+
+        const difference =
+            state.targetFrame -
+            state.currentFrame;
+
+
+        if (Math.abs(difference) > 0.01) {
+
+            state.currentFrame +=
+                difference * 0.22;
+
+        } else {
+
+            state.currentFrame =
+                state.targetFrame;
+        }
+
+
+        renderFrame(
+            Math.round(
+                state.currentFrame
+            )
+        );
+
+
+        requestAnimationFrame(
+            animationLoop
+        );
+    }
+
+
+    /* =========================================================
+       PROGRESSIVE PRELOADING
+    ========================================================= */
+
+    async function preloadFrames() {
+
+        const batchSize = 8;
+
+        let loadedCount = 0;
+
+
+        for (
+            let start = 0;
+            start < FRAME_COUNT;
+            start += batchSize
+        ) {
+
+            const batch = [];
+
+
+            for (
+                let i = start;
+                i < Math.min(
+                    start + batchSize,
+                    FRAME_COUNT
+                );
+                i++
+            ) {
+
+                batch.push(
+                    loadFrame(i).then(() => {
+
+                        loadedCount++;
+
+
+                        const percentage =
+                            Math.round(
+                                (
+                                    loadedCount /
+                                    FRAME_COUNT
+                                ) * 100
+                            );
+
+
+                        loaderPercent.textContent =
+                            `${percentage}%`;
+
+                        loaderProgress.style.width =
+                            `${percentage}%`;
+
+                    })
+                );
+
             }
-          );
+
+
+            await Promise.all(batch);
+
+
+            /*
+             * Give the browser a tiny break.
+             * This helps mobile devices.
+             */
+
+            await new Promise(
+                resolve =>
+                    requestAnimationFrame(resolve)
+            );
+
+
+            /*
+             * As soon as the first frame exists,
+             * display it.
+             */
+
+            if (
+                start === 0 &&
+                loaded[0]
+            ) {
+
+                renderFrame(0);
+
+                loader.classList.add(
+                    "hidden"
+                );
+            }
 
         }
 
-      }
-
-    });
-
-  }
-
-
-  /* =======================================================
-     INITIALIZE
-  ======================================================== */
-
-  async function initialize() {
-
-    updateIntroHeight();
-
-    await preloadFrames();
-
-    /*
-      Fade loader out once enough of the sequence
-      is available.
-
-      The entire sequence continues loading
-      in the background.
-    */
-
-    gsap.to(
-      loader,
-      {
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        onComplete() {
-
-          loader.classList.add(
-            "is-hidden"
-          );
-
-        }
-      }
-    );
-
-
-    createScrollAnimation();
-
-    ScrollTrigger.refresh();
-
-
-    /*
-      Make sure first frame is visible.
-    */
-
-    state.targetFrame = 0;
-
-    renderFrame(0);
-
-  }
-
-
-  /* =======================================================
-     RESIZE HANDLING
-  ======================================================== */
-
-  let resizeTimer = null;
-
-  function handleResize() {
-
-    clearTimeout(resizeTimer);
-
-    resizeTimer =
-      setTimeout(() => {
-
-        updateIntroHeight();
-
-        resizeCanvas();
-
-        ScrollTrigger.refresh();
-
-      }, 150);
-
-  }
-
-
-  window.addEventListener(
-    "resize",
-    handleResize,
-    {
-      passive: true
-    }
-  );
-
-
-  /*
-    Mobile browsers can change visualViewport
-    when their address bar appears/disappears.
-  */
-
-  if (window.visualViewport) {
-
-    window.visualViewport.addEventListener(
-      "resize",
-      handleResize,
-      {
-        passive: true
-      }
-    );
-
-  }
-
-
-  /* =======================================================
-     ORIENTATION CHANGE
-  ======================================================== */
-
-  window.addEventListener(
-    "orientationchange",
-    () => {
-
-      setTimeout(() => {
-
-        updateIntroHeight();
-
-        resizeCanvas();
-
-        ScrollTrigger.refresh();
-
-      }, 400);
-
-    }
-  );
-
-
-  /* =======================================================
-     SKILL ICON INTERACTION
-  ======================================================== */
-
-  const skillCircles =
-    document.querySelectorAll(
-      ".game-skill-circle"
-    );
-
-
-  skillCircles.forEach(
-    circle => {
-
-      let smokeTimer =
-        null;
-
-      let returnTimer =
-        null;
-
-
-      function escapeCircle() {
 
         /*
-          Don't run this interaction
-          on touch devices.
-        */
+         * Make absolutely sure
+         * first and last frame exist.
+         */
 
-        if (
-          window.matchMedia(
-            "(hover: none)"
-          ).matches
-        ) {
-
-          return;
-
-        }
+        await Promise.all([
+            loadFrame(0),
+            loadFrame(FRAME_COUNT - 1)
+        ]);
 
 
-        circle.classList.add(
-          "is-escaping"
+        loader.classList.add(
+            "hidden"
         );
 
-
-        const randomX =
-          (Math.random() - 0.5) * 110;
-
-        const randomY =
-          (Math.random() - 0.5) * 80;
-
-        const randomRotate =
-          (Math.random() - 0.5) * 40;
+    }
 
 
-        circle.style.transform =
-          `
-          translate(
-            ${randomX}px,
-            ${randomY}px
-          )
-          scale(1.2)
-          rotate(${randomRotate}deg)
-          `;
+    /* =========================================================
+       SCROLL ANIMATION
+    ========================================================= */
+
+    function createScrollAnimation() {
+
+        gsap.to(
+            state,
+            {
+                targetFrame:
+                    FRAME_COUNT - 1,
+
+                ease: "none",
+
+                scrollTrigger: {
+
+                    trigger:
+                        introSection,
+
+                    start: "top top",
+
+                    end: "bottom bottom",
+
+                    scrub: 0.12,
+
+                    invalidateOnRefresh: true,
 
 
-        clearTimeout(
-          smokeTimer
+                    onUpdate: self => {
+
+                        /*
+                         * Convert scroll progress
+                         * into frame number.
+                         */
+
+                        state.targetFrame =
+                            self.progress *
+                            (FRAME_COUNT - 1);
+
+
+                        /*
+                         * Hide scroll hint
+                         * after scrolling starts.
+                         */
+
+                        if (
+                            self.progress > 0.015
+                        ) {
+
+                            scrollHint.classList.add(
+                                "hidden"
+                            );
+
+                        } else {
+
+                            scrollHint.classList.remove(
+                                "hidden"
+                            );
+
+                        }
+
+                    }
+
+                }
+
+            }
         );
 
-        clearTimeout(
-          returnTimer
-        );
+    }
 
 
-        smokeTimer =
-          setTimeout(() => {
+    /* =========================================================
+       INITIALIZE INTRO
+    ========================================================= */
 
-            circle.classList.add(
-              "is-smoke"
+    async function initializeIntro() {
+
+        resizeCanvas();
+
+        /*
+         * Load first frame immediately.
+         */
+
+        await loadFrame(0);
+
+        renderFrame(0);
+
+        /*
+         * Start render loop.
+         */
+
+        animationLoop();
+
+        /*
+         * Start loading remaining frames.
+         */
+
+        preloadFrames();
+
+        /*
+         * Create ScrollTrigger.
+         */
+
+        createScrollAnimation();
+
+    }
+
+
+    /* =========================================================
+       WINDOW RESIZE
+    ========================================================= */
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            clearTimeout(
+                resizeTimer
             );
 
 
-            returnTimer =
-              setTimeout(() => {
+            resizeTimer =
+                setTimeout(
+                    () => {
 
-                circle.classList.remove(
-                  "is-smoke"
+                        resizeCanvas();
+
+                        ScrollTrigger.refresh();
+
+                    },
+                    150
                 );
 
-                circle.classList.remove(
-                  "is-escaping"
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =========================================================
+       ORIENTATION CHANGE
+    ========================================================= */
+
+    window.addEventListener(
+        "orientationchange",
+        () => {
+
+            setTimeout(
+                () => {
+
+                    resizeCanvas();
+
+                    ScrollTrigger.refresh();
+
+                },
+                350
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* =========================================================
+       VISUAL VIEWPORT
+       Helps mobile browsers.
+    ========================================================= */
+
+    if (window.visualViewport) {
+
+        window.visualViewport.addEventListener(
+            "resize",
+            () => {
+
+                clearTimeout(
+                    resizeTimer
                 );
 
-                circle.style.transform =
-                  "translate(0,0) scale(1) rotate(0deg)";
 
-              }, 400);
+                resizeTimer =
+                    setTimeout(
+                        () => {
 
+                            resizeCanvas();
 
-          }, 500);
+                        },
+                        120
+                    );
 
-      }
-
-
-      function resetCircle() {
-
-        clearTimeout(
-          smokeTimer
+            }
         );
-
-        clearTimeout(
-          returnTimer
-        );
-
-
-        circle.classList.remove(
-          "is-escaping"
-        );
-
-        circle.classList.remove(
-          "is-smoke"
-        );
-
-
-        circle.style.transform =
-          "translate(0,0) scale(1) rotate(0deg)";
-
-      }
-
-
-      circle.addEventListener(
-        "mouseenter",
-        escapeCircle
-      );
-
-
-      circle.addEventListener(
-        "mouseleave",
-        resetCircle
-      );
 
     }
-  );
 
 
-  /* =======================================================
-     START
-  ======================================================== */
+    /* =========================================================
+       SKILL ICONS
+    ========================================================= */
 
-  initialize();
+    const skillCircles =
+        document.querySelectorAll(
+            ".game-skill-circle"
+        );
+
+
+    /*
+     * Add a small pointer-based interaction.
+     *
+     * This does NOT move the hyperlink away from
+     * the cursor, so clicking remains easy.
+     */
+
+    skillCircles.forEach((circle) => {
+
+
+        circle.addEventListener(
+            "pointerenter",
+            () => {
+
+                circle.classList.add(
+                    "is-active"
+                );
+
+            }
+        );
+
+
+        circle.addEventListener(
+            "pointerleave",
+            () => {
+
+                circle.classList.remove(
+                    "is-active"
+                );
+
+            }
+        );
+
+
+        /*
+         * Small press feedback for touch.
+         */
+
+        circle.addEventListener(
+            "pointerdown",
+            () => {
+
+                circle.classList.add(
+                    "is-pressed"
+                );
+
+            }
+        );
+
+
+        circle.addEventListener(
+            "pointerup",
+            () => {
+
+                circle.classList.remove(
+                    "is-pressed"
+                );
+
+            }
+        );
+
+
+        circle.addEventListener(
+            "pointercancel",
+            () => {
+
+                circle.classList.remove(
+                    "is-pressed"
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =========================================================
+       START
+    ========================================================= */
+
+    initializeIntro();
 
 });
