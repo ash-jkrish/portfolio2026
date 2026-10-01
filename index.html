@@ -1,45 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Ashly — Visual Designer</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
     <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
+    </script>
 
     <!-- ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js">
+    </script>
+
 </head>
+
 
 <body>
 
-<!-- =========================================================
-     INTRO / 239 FRAME SCROLL SEQUENCE
-========================================================= -->
 
-<section id="intro-section" class="intro-section">
+<!-- =====================================================
+     INTRO / 239 FRAME SEQUENCE
+====================================================== -->
+
+<section
+    id="intro-section"
+    class="intro-section"
+>
 
     <div class="intro-stage">
 
-        <canvas id="sequence-canvas"></canvas>
+        <canvas
+            id="sequence-canvas"
+        ></canvas>
 
-        <div id="loader" class="loader">
+
+        <!-- LOADER -->
+
+        <div
+            id="loader"
+            class="loader"
+        >
+
             <div class="loader-text">
-                Loading <span id="loader-percent">0%</span>
+
+                Loading
+                <span id="loader-percent">
+                    0%
+                </span>
+
             </div>
 
             <div class="loader-bar">
-                <div id="loader-progress"></div>
+
+                <div
+                    id="loader-progress"
+                ></div>
+
             </div>
+
         </div>
 
-        <div id="scroll-hint" class="scroll-hint">
-            <span>SCROLL TO EXPLORE</span>
-            <div class="scroll-arrow">↓</div>
+
+        <!-- SCROLL HINT -->
+
+        <div
+            id="scroll-hint"
+            class="scroll-hint"
+        >
+
+            <span>
+                SCROLL TO EXPLORE
+            </span>
+
+            <div class="scroll-arrow">
+                ↓
+            </div>
+
         </div>
 
     </div>
@@ -47,62 +98,142 @@
 </section>
 
 
-<!-- =========================================================
-     ABOUT / PORTFOLIO INTRO
-========================================================= -->
+
+<!-- =====================================================
+     PORTFOLIO
+====================================================== -->
 
 <main class="portfolio-content">
 
-    <section class="portfolio-hero">
 
-        <div class="about-bg-wrapper">
+    <!-- =================================================
+         ABOUT
+    ================================================== -->
 
-            <!-- Decorative glow -->
-            <div class="about-glow about-glow-one"></div>
-            <div class="about-glow about-glow-two"></div>
+    <section
+        id="about-section"
+        class="portfolio-hero"
+    >
 
-            <!-- Small top label -->
+        <div
+            class="about-transition-glow"
+        ></div>
+
+
+        <!-- ABOUT CARD -->
+
+        <div
+            id="about-card"
+            class="about-bg-wrapper"
+        >
+
+
+            <!-- MOTION DESIGN ELEMENTS -->
+
+            <div class="scan-line"></div>
+
+            <div class="motion-ring motion-ring-one"></div>
+
+            <div class="motion-ring motion-ring-two"></div>
+
+            <div class="motion-ring motion-ring-three"></div>
+
+
+            <!-- AMBIENT GLOWS -->
+
+            <div
+                class="about-glow about-glow-one"
+            ></div>
+
+            <div
+                class="about-glow about-glow-two"
+            ></div>
+
+
+            <!-- TOP INDEX -->
+
             <div class="about-number">
-                02
-                <span>ABOUT ME</span>
+
+                <span class="about-index">
+                    02
+                </span>
+
+                <span class="about-line"></span>
+
+                <span>
+                    ABOUT ME
+                </span>
+
             </div>
 
 
-            <!-- =================================================
-                 ABOUT CONTENT
-            ================================================= -->
+            <!-- ABOUT CONTENT -->
 
             <div class="about-content">
 
-                <p class="about-eyebrow">
-                    VISUAL DESIGNER / CREATIVE / DIGITAL
+
+                <p class="about-eyebrow about-reveal">
+
+                    VISUAL DESIGNER
+                    /
+                    CREATIVE
+                    /
+                    DIGITAL
+
                 </p>
 
-                <h1 class="about-heading">
-                    About<br>
-                    <span>Me.</span>
+
+                <h1
+                    class="about-heading about-reveal"
+                >
+
+                    About
+
+                    <br>
+
+                    <span>
+                        Me.
+                    </span>
+
                 </h1>
 
-                <p class="about-description">
-                    I'm <strong>Ashly Thomas</strong>, a Visual Designer and
-                    B.Tech Computer Science graduate who enjoys combining
-                    creativity, visual storytelling and technology.
-                    I create posters, brand identities, motion graphics,
-                    videos, digital experiences and websites — bringing
-                    design and code together to create meaningful visual
-                    experiences.
+
+                <p
+                    class="about-description about-reveal"
+                >
+
+                    I'm
+                    <strong>Ashly Thomas</strong>,
+                    a Visual Designer and
+                    B.Tech Computer Science graduate
+                    who enjoys combining creativity,
+                    visual storytelling and technology.
+
+                    I create posters, brand identities,
+                    motion graphics, videos,
+                    digital experiences and websites —
+                    bringing design and code together
+                    to create meaningful visual experiences.
+
                 </p>
 
-                <p class="about-description secondary">
-                    Explore the different sides of my creative work below.
+
+                <p
+                    class="about-description secondary about-reveal"
+                >
+
+                    Explore the different sides
+                    of my creative work below.
+
                 </p>
 
 
-                <!-- =================================================
-                     CREATIVE SKILL / PORTFOLIO ORBIT
-                ================================================= -->
 
-                <div class="skills-header">
+                <!-- SKILLS HEADER -->
+
+                <div
+                    class="skills-header about-reveal"
+                >
 
                     <span class="skills-line"></span>
 
@@ -115,45 +246,115 @@
                 </div>
 
 
-                <div class="game-icons-container">
+
+                <!-- =================================================
+                     ORBIT SYSTEM
+                ================================================== -->
+
+                <div
+                    class="game-icons-container about-reveal"
+                >
+
+
+                    <!-- ORBIT TRACK -->
+
+                    <div class="main-orbit"></div>
+
+                    <div class="main-orbit-glow"></div>
+
+
+                    <!-- CENTER -->
+
+                    <div class="orbit-center">
+
+                        <div class="orbit-center-ring"></div>
+
+                        <div class="orbit-center-content">
+
+                            <span>
+                                ASHLY
+                            </span>
+
+                            <small>
+                                VISUAL DESIGN
+                            </small>
+
+                        </div>
+
+                    </div>
+
 
 
                     <!-- =================================================
-                         01 CREATIVE POSTERS
-                    ================================================= -->
+                         01
+                    ================================================== -->
 
                     <a
                         href="creative-posters.html"
-                        class="game-skill-circle skill-1"
+                        class="orbit-node skill-1"
                         aria-label="Creative Posters"
-                        title="Creative Posters"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Poster Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <rect x="15" y="9" width="34" height="46" rx="3"/>
-                                <rect x="21" y="16" width="22" height="15" rx="2"/>
-                                <circle cx="28" cy="22" r="3"/>
-                                <path d="M22 27l6-5 5 4 4-3 6 7"/>
-                                <path d="M22 37h20"/>
-                                <path d="M22 43h14"/>
-                                <path d="M22 49h17"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">01</span>
+                                    <rect
+                                        x="15"
+                                        y="9"
+                                        width="34"
+                                        height="46"
+                                        rx="3"
+                                    />
+
+                                    <rect
+                                        x="21"
+                                        y="16"
+                                        width="22"
+                                        height="15"
+                                        rx="2"
+                                    />
+
+                                    <circle
+                                        cx="28"
+                                        cy="22"
+                                        r="3"
+                                    />
+
+                                    <path
+                                        d="M22 27l6-5 5 4 4-3 6 7"
+                                    />
+
+                                    <path
+                                        d="M22 37h20"
+                                    />
+
+                                    <path
+                                        d="M22 43h14"
+                                    />
+
+                                    <path
+                                        d="M22 49h17"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                01
+                            </span>
+
+                        </div>
+
 
                         <span class="skill-label">
-                            CREATIVE<br>POSTERS
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            CREATIVE<br>
+                            POSTERS
                         </span>
 
                     </a>
@@ -161,38 +362,54 @@
 
 
                     <!-- =================================================
-                         02 BRAND DESIGN
-                    ================================================= -->
+                         02
+                    ================================================== -->
 
                     <a
                         href="brand-design.html"
-                        class="game-skill-circle skill-2"
+                        class="orbit-node skill-2"
                         aria-label="Brand Design"
-                        title="Brand Design"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Brand Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <path d="M32 8l22 10v16c0 12-9 19-22 23C19 53 10 46 10 34V18z"/>
-                                <path d="M21 32h22"/>
-                                <path d="M32 21v22"/>
-                                <circle cx="32" cy="32" r="6"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">02</span>
+                                    <path
+                                        d="M32 8l22 10v16c0 12-9 19-22 23C19 53 10 46 10 34V18z"
+                                    />
+
+                                    <path
+                                        d="M21 32h22"
+                                    />
+
+                                    <path
+                                        d="M32 21v22"
+                                    />
+
+                                    <circle
+                                        cx="32"
+                                        cy="32"
+                                        r="6"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                02
+                            </span>
+
+                        </div>
 
                         <span class="skill-label">
-                            BRAND<br>DESIGN
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            BRAND<br>
+                            DESIGN
                         </span>
 
                     </a>
@@ -200,38 +417,52 @@
 
 
                     <!-- =================================================
-                         03 LOGO DESIGN
-                    ================================================= -->
+                         03
+                    ================================================== -->
 
                     <a
                         href="logo-design.html"
-                        class="game-skill-circle skill-3"
+                        class="orbit-node skill-3"
                         aria-label="Logo Design"
-                        title="Logo Design"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Logo / Pen Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <path d="M13 50l4-15L42 10l12 12-25 25z"/>
-                                <path d="M35 17l12 12"/>
-                                <path d="M17 35l12 12"/>
-                                <path d="M13 50l11-3"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">03</span>
+                                    <path
+                                        d="M13 50l4-15L42 10l12 12-25 25z"
+                                    />
+
+                                    <path
+                                        d="M35 17l12 12"
+                                    />
+
+                                    <path
+                                        d="M17 35l12 12"
+                                    />
+
+                                    <path
+                                        d="M13 50l11-3"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                03
+                            </span>
+
+                        </div>
 
                         <span class="skill-label">
-                            LOGO<br>DESIGN
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            LOGO<br>
+                            DESIGN
                         </span>
 
                     </a>
@@ -239,38 +470,52 @@
 
 
                     <!-- =================================================
-                         04 MOTION GRAPHICS
-                    ================================================= -->
+                         04
+                    ================================================== -->
 
                     <a
                         href="motion-graphics.html"
-                        class="game-skill-circle skill-4"
+                        class="orbit-node skill-4"
                         aria-label="Motion Graphics"
-                        title="Motion Graphics"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Motion Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <path d="M9 20h14"/>
-                                <path d="M5 32h18"/>
-                                <path d="M9 44h14"/>
-                                <path d="M28 17l25 15-25 15z"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">04</span>
+                                    <path
+                                        d="M9 20h14"
+                                    />
+
+                                    <path
+                                        d="M5 32h18"
+                                    />
+
+                                    <path
+                                        d="M9 44h14"
+                                    />
+
+                                    <path
+                                        d="M28 17l25 15-25 15z"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                04
+                            </span>
+
+                        </div>
 
                         <span class="skill-label">
-                            MOTION<br>GRAPHICS
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            MOTION<br>
+                            GRAPHICS
                         </span>
 
                     </a>
@@ -278,38 +523,60 @@
 
 
                     <!-- =================================================
-                         05 VIDEOGRAPHY
-                    ================================================= -->
+                         05
+                    ================================================== -->
 
                     <a
                         href="videography.html"
-                        class="game-skill-circle skill-5"
+                        class="orbit-node skill-5"
                         aria-label="Videography"
-                        title="Videography"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Camera Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <rect x="8" y="19" width="48" height="32" rx="5"/>
-                                <path d="M19 19l4-8h15l5 8"/>
-                                <circle cx="32" cy="35" r="9"/>
-                                <circle cx="32" cy="35" r="4"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">05</span>
+                                    <rect
+                                        x="8"
+                                        y="19"
+                                        width="48"
+                                        height="32"
+                                        rx="5"
+                                    />
+
+                                    <path
+                                        d="M19 19l4-8h15l5 8"
+                                    />
+
+                                    <circle
+                                        cx="32"
+                                        cy="35"
+                                        r="9"
+                                    />
+
+                                    <circle
+                                        cx="32"
+                                        cy="35"
+                                        r="4"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                05
+                            </span>
+
+                        </div>
 
                         <span class="skill-label">
-                            VIDEO<br>GRAPHY
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            VIDEO<br>
+                            GRAPHY
                         </span>
 
                     </a>
@@ -317,40 +584,64 @@
 
 
                     <!-- =================================================
-                         06 VIDEO EDITING
-                    ================================================= -->
+                         06
+                    ================================================== -->
 
                     <a
                         href="video-editing.html"
-                        class="game-skill-circle skill-6"
+                        class="orbit-node skill-6"
                         aria-label="Video Editing"
-                        title="Video Editing"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Editing / Timeline Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <rect x="9" y="13" width="46" height="38" rx="4"/>
-                                <path d="M9 25h46"/>
-                                <path d="M19 25v26"/>
-                                <path d="M37 25v26"/>
-                                <path d="M19 33h18"/>
-                                <path d="M19 41h10"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">06</span>
+                                    <rect
+                                        x="9"
+                                        y="13"
+                                        width="46"
+                                        height="38"
+                                        rx="4"
+                                    />
+
+                                    <path
+                                        d="M9 25h46"
+                                    />
+
+                                    <path
+                                        d="M19 25v26"
+                                    />
+
+                                    <path
+                                        d="M37 25v26"
+                                    />
+
+                                    <path
+                                        d="M19 33h18"
+                                    />
+
+                                    <path
+                                        d="M19 41h10"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                06
+                            </span>
+
+                        </div>
 
                         <span class="skill-label">
-                            VIDEO<br>EDITING
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            VIDEO<br>
+                            EDITING
                         </span>
 
                     </a>
@@ -358,39 +649,60 @@
 
 
                     <!-- =================================================
-                         07 WEB DESIGN
-                    ================================================= -->
+                         07
+                    ================================================== -->
 
                     <a
                         href="web-design.html"
-                        class="game-skill-circle skill-7"
+                        class="orbit-node skill-7"
                         aria-label="Web Design"
-                        title="Web Design"
                     >
 
-                        <span class="skill-orbit"></span>
+                        <div class="game-skill-circle">
 
-                        <span class="skill-icon">
+                            <span class="skill-orbit"></span>
 
-                            <!-- Code / Web Icon -->
-                            <svg viewBox="0 0 64 64" aria-hidden="true">
-                                <rect x="8" y="11" width="48" height="42" rx="5"/>
-                                <path d="M8 23h48"/>
-                                <path d="M21 35l-7 5 7 5"/>
-                                <path d="M43 35l7 5-7 5"/>
-                                <path d="M36 32l-8 16"/>
-                            </svg>
+                            <span class="skill-icon">
 
-                        </span>
+                                <svg viewBox="0 0 64 64">
 
-                        <span class="skill-number">07</span>
+                                    <rect
+                                        x="8"
+                                        y="11"
+                                        width="48"
+                                        height="42"
+                                        rx="5"
+                                    />
+
+                                    <path
+                                        d="M8 23h48"
+                                    />
+
+                                    <path
+                                        d="M21 35l-7 5 7 5"
+                                    />
+
+                                    <path
+                                        d="M43 35l7 5-7 5"
+                                    />
+
+                                    <path
+                                        d="M36 32l-8 16"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+                            <span class="skill-number">
+                                07
+                            </span>
+
+                        </div>
 
                         <span class="skill-label">
-                            WEB<br>DESIGN
-                        </span>
-
-                        <span class="skill-explore">
-                            EXPLORE →
+                            WEB<br>
+                            DESIGN
                         </span>
 
                     </a>
@@ -404,10 +716,453 @@
 
     </section>
 
+
+    <!-- =================================================
+         EXPERIENCE STACK
+    ================================================== -->
+
+    <section
+        id="experience-section"
+        class="experience-section"
+    >
+
+        <div class="experience-stage">
+
+            <!-- EXPERIENCE 01 -->
+
+            <article class="experience-panel experience-panel-1">
+
+                <div class="experience-panel-inner">
+
+                    <div class="experience-meta">
+
+                        <span class="experience-number">03</span>
+
+                        <span class="experience-line"></span>
+
+                        <span>EXPERIENCE / 01</span>
+
+                    </div>
+
+                    <div class="experience-content">
+
+                        <div class="experience-copy">
+
+                            <p class="experience-eyebrow">
+                                CURRENT EXPERIENCE
+                            </p>
+
+                            <h2 class="experience-company">
+                                COMPANY<br>
+                                <span>NAME.</span>
+                            </h2>
+
+                            <p class="experience-role">
+                                Visual Designer / Creative Designer
+                            </p>
+
+                            <p class="experience-description">
+                                Add your employer details, role, duration and a short
+                                description of the work you created here.
+                            </p>
+
+                            <div class="experience-details">
+                                <span>202X — PRESENT</span>
+                                <span>KERALA / INDIA</span>
+                            </div>
+
+                        </div>
+
+                        <div class="experience-work-grid">
+
+                            <a href="creative-posters.html" class="experience-work-card">
+                                <span class="work-card-number">01</span>
+                                <span class="work-card-title">CREATIVE<br>POSTERS</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="brand-design.html" class="experience-work-card">
+                                <span class="work-card-number">02</span>
+                                <span class="work-card-title">BRAND<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="logo-design.html" class="experience-work-card">
+                                <span class="work-card-number">03</span>
+                                <span class="work-card-title">LOGO<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="motion-graphics.html" class="experience-work-card">
+                                <span class="work-card-number">04</span>
+                                <span class="work-card-title">MOTION<br>GRAPHICS</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- EXPERIENCE 02 -->
+
+            <article class="experience-panel experience-panel-2">
+
+                <div class="experience-panel-inner">
+
+                    <div class="experience-meta">
+
+                        <span class="experience-number">04</span>
+
+                        <span class="experience-line"></span>
+
+                        <span>EXPERIENCE / 02</span>
+
+                    </div>
+
+                    <div class="experience-content">
+
+                        <div class="experience-copy">
+
+                            <p class="experience-eyebrow">
+                                PREVIOUS EXPERIENCE
+                            </p>
+
+                            <h2 class="experience-company">
+                                COMPANY<br>
+                                <span>NAME.</span>
+                            </h2>
+
+                            <p class="experience-role">
+                                Visual Designer / Creative Designer
+                            </p>
+
+                            <p class="experience-description">
+                                Add the employer details, role, duration and a short
+                                description of the work you created here.
+                            </p>
+
+                            <div class="experience-details">
+                                <span>202X — 202X</span>
+                                <span>KERALA / INDIA</span>
+                            </div>
+
+                        </div>
+
+                        <div class="experience-work-grid">
+
+                            <a href="videography.html" class="experience-work-card">
+                                <span class="work-card-number">01</span>
+                                <span class="work-card-title">VIDEO<br>GRAPHY</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="video-editing.html" class="experience-work-card">
+                                <span class="work-card-number">02</span>
+                                <span class="work-card-title">VIDEO<br>EDITING</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="web-design.html" class="experience-work-card">
+                                <span class="work-card-number">03</span>
+                                <span class="work-card-title">WEB<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="brand-design.html" class="experience-work-card">
+                                <span class="work-card-number">04</span>
+                                <span class="work-card-title">BRAND<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- EXPERIENCE 03 -->
+
+            <article class="experience-panel experience-panel-3">
+
+                <div class="experience-panel-inner">
+
+                    <div class="experience-meta">
+
+                        <span class="experience-number">05</span>
+
+                        <span class="experience-line"></span>
+
+                        <span>EXPERIENCE / 03</span>
+
+                    </div>
+
+                    <div class="experience-content">
+
+                        <div class="experience-copy">
+
+                            <p class="experience-eyebrow">
+                                PREVIOUS EXPERIENCE
+                            </p>
+
+                            <h2 class="experience-company">
+                                COMPANY<br>
+                                <span>NAME.</span>
+                            </h2>
+
+                            <p class="experience-role">
+                                Visual Designer / Creative Designer
+                            </p>
+
+                            <p class="experience-description">
+                                Add the employer details, role, duration and a short
+                                description of the work you created here.
+                            </p>
+
+                            <div class="experience-details">
+                                <span>202X — 202X</span>
+                                <span>KERALA / INDIA</span>
+                            </div>
+
+                        </div>
+
+                        <div class="experience-work-grid">
+
+                            <a href="creative-posters.html" class="experience-work-card">
+                                <span class="work-card-number">01</span>
+                                <span class="work-card-title">CREATIVE<br>POSTERS</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="motion-graphics.html" class="experience-work-card">
+                                <span class="work-card-number">02</span>
+                                <span class="work-card-title">MOTION<br>GRAPHICS</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="videography.html" class="experience-work-card">
+                                <span class="work-card-number">03</span>
+                                <span class="work-card-title">VIDEO<br>GRAPHY</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="video-editing.html" class="experience-work-card">
+                                <span class="work-card-number">04</span>
+                                <span class="work-card-title">VIDEO<br>EDITING</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- EXPERIENCE 04 -->
+
+            <article class="experience-panel experience-panel-4">
+
+                <div class="experience-panel-inner">
+
+                    <div class="experience-meta">
+
+                        <span class="experience-number">06</span>
+
+                        <span class="experience-line"></span>
+
+                        <span>EXPERIENCE / 04</span>
+
+                    </div>
+
+                    <div class="experience-content">
+
+                        <div class="experience-copy">
+
+                            <p class="experience-eyebrow">
+                                EARLIER EXPERIENCE
+                            </p>
+
+                            <h2 class="experience-company">
+                                COMPANY<br>
+                                <span>NAME.</span>
+                            </h2>
+
+                            <p class="experience-role">
+                                Visual Designer / Creative Designer
+                            </p>
+
+                            <p class="experience-description">
+                                Add the employer details, role, duration and a short
+                                description of the work you created here.
+                            </p>
+
+                            <div class="experience-details">
+                                <span>202X — 202X</span>
+                                <span>KERALA / INDIA</span>
+                            </div>
+
+                        </div>
+
+                        <div class="experience-work-grid">
+
+                            <a href="logo-design.html" class="experience-work-card">
+                                <span class="work-card-number">01</span>
+                                <span class="work-card-title">LOGO<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="brand-design.html" class="experience-work-card">
+                                <span class="work-card-number">02</span>
+                                <span class="work-card-title">BRAND<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="web-design.html" class="experience-work-card">
+                                <span class="work-card-number">03</span>
+                                <span class="work-card-title">WEB<br>DESIGN</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                            <a href="creative-posters.html" class="experience-work-card">
+                                <span class="work-card-number">04</span>
+                                <span class="work-card-title">CREATIVE<br>POSTERS</span>
+                                <span class="work-card-arrow">↗</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CONTACT
+    ================================================== -->
+
+    <section
+        id="contact-section"
+        class="contact-section"
+    >
+
+        <div class="contact-inner">
+
+            <div class="contact-copy-wrap">
+
+                <p class="contact-kicker">
+                    LET'S CREATE SOMETHING
+                </p>
+
+                <h2 class="contact-heading">
+                    Get In<br>
+                    <span>Touch.</span>
+                </h2>
+
+                <p class="contact-copy">
+                    Available for visual design, branding, motion graphics,
+                    video, web design and creative collaborations.
+                    Choose any channel below and let's talk.
+                </p>
+
+                <div class="contact-links">
+
+                    <a class="contact-link" href="https://wa.me/" target="_blank" rel="noopener">
+                        <span class="contact-link-main">
+                            <span class="contact-link-label">WHATSAPP</span>
+                            <span class="contact-link-value">Message me</span>
+                        </span>
+                        <span class="contact-link-arrow">↗</span>
+                    </a>
+
+                    <a class="contact-link" href="#" aria-label="Instagram">
+                        <span class="contact-link-main">
+                            <span class="contact-link-label">INSTAGRAM</span>
+                            <span class="contact-link-value">@yourusername</span>
+                        </span>
+                        <span class="contact-link-arrow">↗</span>
+                    </a>
+
+                    <a class="contact-link" href="tel:+91" aria-label="Call">
+                        <span class="contact-link-main">
+                            <span class="contact-link-label">CALL</span>
+                            <span class="contact-link-value">+91 XXXXX XXXXX</span>
+                        </span>
+                        <span class="contact-link-arrow">↗</span>
+                    </a>
+
+                    <a class="contact-link" href="mailto:hello@example.com">
+                        <span class="contact-link-main">
+                            <span class="contact-link-label">EMAIL</span>
+                            <span class="contact-link-value">hello@example.com</span>
+                        </span>
+                        <span class="contact-link-arrow">↗</span>
+                    </a>
+
+                    <a class="contact-link" href="#" aria-label="Behance">
+                        <span class="contact-link-main">
+                            <span class="contact-link-label">BEHANCE</span>
+                            <span class="contact-link-value">View my work</span>
+                        </span>
+                        <span class="contact-link-arrow">↗</span>
+                    </a>
+
+                    <a class="contact-link" href="#" aria-label="Portfolio">
+                        <span class="contact-link-main">
+                            <span class="contact-link-label">PORTFOLIO</span>
+                            <span class="contact-link-value">Open portfolio</span>
+                        </span>
+                        <span class="contact-link-arrow">↗</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="contact-qr">
+
+                <div class="contact-qr-box" aria-label="Portfolio QR code">
+                    <img
+                        id="portfolio-qr"
+                        src=""
+                        alt="QR code to open portfolio"
+                    >
+                    <span class="contact-qr-mark">QR</span>
+                </div>
+
+                <p class="contact-qr-label">
+                    SCAN TO OPEN PORTFOLIO
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
 </main>
+
 
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
