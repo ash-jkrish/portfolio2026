@@ -1011,7 +1011,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         function getViewportHeight() {
-            return window.innerHeight ||
+            /* Use the visual viewport on phones so browser address-bar changes
+               do not make the stack calculate against a stale height. */
+            return (window.visualViewport && window.visualViewport.height) ||
+                   window.innerHeight ||
                    document.documentElement.clientHeight ||
                    1;
         }
@@ -1367,10 +1370,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!mobileQuery.matches) return;
 
             /*
-             * Critical: do not allow the document to scroll while
-             * the Experience card is being swiped.
+             * Allow the page to naturally enter/leave Experience.
+             * Once Experience is fully aligned, lock native movement so a
+             * swipe can control exactly one card transition.
              */
-            if (isSectionActive()) {
+            if (isSectionActive() && !isTransitioning) {
                 event.preventDefault();
             }
         }
@@ -1503,6 +1507,19 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             { passive: true }
         );
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener(
+                "resize",
+                () => {
+                    if (!isTransitioning && isSectionActive()) {
+                        movePageTo(getSectionTop(), false);
+                    }
+                    setPanelState(activePanel);
+                },
+                { passive: true }
+            );
+        }
 
         syncMode();
     }

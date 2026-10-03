@@ -3093,70 +3093,87 @@ body {
         height: 100dvh;
         min-height: 100svh;
         min-height: 100dvh;
-        touch-action: none;
-        overscroll-behavior: none;
+        /* Keep normal page entry/exit gestures available. JS locks touch
+           only while the section is actually aligned. */
+        touch-action: pan-y;
+        overscroll-behavior: contain;
     }
 
     .experience-panel {
         min-height: 100%;
         height: 100%;
-        touch-action: none;
+        touch-action: pan-y;
     }
 
     .experience-panel {
-
-        padding:
-            70px 28px 35px;
+        padding: 64px 24px 24px;
     }
-
 
     .experience-panel-inner {
-
         width: 100%;
+        height: 100%;
+        min-height: 0;
     }
-
 
     .experience-content {
-
         grid-template-columns: 1fr;
-
-        gap: 26px;
-
-        overflow-y: auto;
-
-        max-height: 88vh;
-
-        padding: 10px 0;
+        gap: 18px;
+        min-height: 0;
+        max-height: calc(100% - 8px);
+        padding: 4px 0 0;
+        overflow: hidden;
     }
-
 
     .experience-copy {
-
         max-width: none;
-
-        padding: 10px 0;
+        padding: 0;
     }
 
+    .experience-eyebrow {
+        margin-bottom: 10px;
+        font-size: 9px;
+        letter-spacing: 2.5px;
+    }
 
     .experience-company {
+        margin-bottom: 10px;
+        font-size: clamp(2.65rem, 11vw, 4.8rem);
+        line-height: .86;
+        letter-spacing: -3px;
+    }
 
-        font-size: clamp(3.4rem, 14vw, 6rem);
+    .experience-role {
+        margin-bottom: 9px;
+        font-size: 13px;
+    }
 
-        letter-spacing: -4px;
+    .experience-description {
+        font-size: 11.5px;
+        line-height: 1.42;
+        max-width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .experience-details {
+        gap: 12px;
+        margin-top: 12px;
+        font-size: 7px;
+        letter-spacing: 1.4px;
     }
 
 
     .experience-work-grid {
-
         max-width: none;
-
         justify-self: stretch;
+        gap: 9px;
     }
 
-
     .experience-work-card {
-
-        min-height: 145px;
+        min-height: 112px;
+        padding: 14px;
     }
 
 
@@ -3182,12 +3199,11 @@ body {
 @media (max-width: 560px) {
 
     .experience-meta {
-
         left: 0;
-
-        font-size: 8px;
-
-        gap: 8px;
+        top: 0;
+        font-size: 7px;
+        gap: 7px;
+        letter-spacing: 2px;
     }
 
 
@@ -3198,30 +3214,33 @@ body {
 
 
     .experience-content {
-
-        max-height: 86vh;
+        gap: 14px;
     }
 
+
+    .experience-panel {
+        padding: 58px 16px 18px;
+    }
 
     .experience-work-grid {
-
         grid-template-columns: 1fr 1fr;
-
-        gap: 8px;
+        gap: 7px;
     }
-
 
     .experience-work-card {
-
-        min-height: 125px;
-
-        padding: 15px;
+        min-height: 98px;
+        padding: 12px;
     }
 
-
     .work-card-title {
+        font-size: 12px;
+        letter-spacing: .6px;
+    }
 
-        font-size: 14px;
+    .work-card-arrow {
+        right: 10px;
+        top: 9px;
+        font-size: 15px;
     }
 
 
@@ -3236,3 +3255,34 @@ body {
 
 
 
+
+
+@media (max-width: 380px) {
+    .experience-panel {
+        padding: 54px 13px 14px;
+    }
+
+    .experience-content {
+        gap: 11px;
+    }
+
+    .experience-company {
+        font-size: clamp(2.35rem, 10.5vw, 3.5rem);
+        letter-spacing: -2.5px;
+    }
+
+    .experience-role {
+        font-size: 12px;
+    }
+
+    .experience-description {
+        font-size: 10.5px;
+        line-height: 1.35;
+        -webkit-line-clamp: 2;
+    }
+
+    .experience-work-card {
+        min-height: 90px;
+        padding: 10px;
+    }
+}
