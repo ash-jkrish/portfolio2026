@@ -1,3 +1,4 @@
+
 /* =========================================================
    RESET
 ========================================================= */
@@ -2110,7 +2111,7 @@ body {
 
     width: 100%;
 
-    /* One viewport only. The panels are stacked inside it. */
+    /* The section is one viewport tall; JS controls the four cards. */
     height: 100vh;
     height: 100svh;
 
@@ -2126,9 +2127,12 @@ body {
 
     position: relative;
 
+    top: auto;
+
     width: 100%;
 
-    height: 100%;
+    height: 100vh;
+    height: 100svh;
 
     overflow: hidden;
 
@@ -2242,6 +2246,7 @@ body {
     z-index: 2;
 
     backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 
@@ -2610,38 +2615,115 @@ body {
 
 
 /* =========================================================
-   EXPERIENCE PANEL COLORS
+   EXPERIENCE PANEL BLUE GRADIENT PROGRESSION
 ========================================================= */
 
+/* EXPERIENCE 01 — deepest / darkest blue */
+.experience-panel-1 {
+    background:
+        linear-gradient(
+            135deg,
+            #020817 0%,
+            #06223a 48%,
+            #0a3c5d 100%
+        );
+}
+
+
+/* EXPERIENCE 02 — medium blue */
 .experience-panel-2 {
     background:
         linear-gradient(
-            145deg,
-            #08131c 0%,
-            #02090d 65%,
-            #02070a 100%
+            135deg,
+            #05223c 0%,
+            #075078 48%,
+            #0b79a4 100%
         );
 }
 
 
+/* EXPERIENCE 03 — lighter blue */
 .experience-panel-3 {
     background:
         linear-gradient(
-            145deg,
-            #09161a 0%,
-            #02090d 65%,
-            #02070a 100%
+            135deg,
+            #08415e 0%,
+            #0d78a0 48%,
+            #21a7c7 100%
         );
 }
 
 
+/* EXPERIENCE 04 — brightest blue */
 .experience-panel-4 {
     background:
         linear-gradient(
-            145deg,
-            #07191b 0%,
-            #02090d 65%,
-            #02070a 100%
+            135deg,
+            #0b5874 0%,
+            #1599bb 48%,
+            #55cfe2 100%
+        );
+}
+
+
+/* Give each card a subtle blue atmospheric glow without
+   changing the content or layout. */
+.experience-panel-1::before {
+    background:
+        radial-gradient(
+            circle at 78% 18%,
+            rgba(30,160,255,.14),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0,80,180,.12),
+            transparent 35%
+        );
+}
+
+
+.experience-panel-2::before {
+    background:
+        radial-gradient(
+            circle at 78% 18%,
+            rgba(80,210,255,.18),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0,120,220,.14),
+            transparent 35%
+        );
+}
+
+
+.experience-panel-3::before {
+    background:
+        radial-gradient(
+            circle at 78% 18%,
+            rgba(120,235,255,.22),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0,160,220,.16),
+            transparent 35%
+        );
+}
+
+
+.experience-panel-4::before {
+    background:
+        radial-gradient(
+            circle at 78% 18%,
+            rgba(190,250,255,.28),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0,190,235,.18),
+            transparent 35%
         );
 }
 
@@ -2996,12 +3078,30 @@ body {
 
 @media (max-width: 900px) {
 
+    /* Mobile Experience is a true swipe-controlled full-screen stack. */
     .experience-section {
-
-        height: 100vh;
         height: 100svh;
+        height: 100dvh;
+        overflow: hidden;
+        overscroll-behavior: contain;
     }
 
+    .experience-stage {
+        position: relative;
+        top: auto;
+        height: 100svh;
+        height: 100dvh;
+        min-height: 100svh;
+        min-height: 100dvh;
+        touch-action: none;
+        overscroll-behavior: none;
+    }
+
+    .experience-panel {
+        min-height: 100%;
+        height: 100%;
+        touch-action: none;
+    }
 
     .experience-panel {
 
@@ -3132,5 +3232,7 @@ body {
         letter-spacing: -4px;
     }
 }
+
+
 
 

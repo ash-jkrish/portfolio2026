@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
     gsap.registerPlugin(ScrollTrigger);
@@ -966,8 +967,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       EXPERIENCE STACK — ONE SCROLL = ONE PAGE
-       2 SECOND HOLD BETWEEN PAGE CHANGES
+       EXPERIENCE STACK — TRUE ONE-SCREEN CARD STACK
+
+       IMPORTANT:
+       The Experience section itself is only ONE viewport tall.
+       The browser is NOT allowed to scroll through four viewport
+       heights. JavaScript owns the four card transitions.
+
+       This prevents the page from jumping above/below the Experience
+       stack when the user makes a large wheel movement or swipe.
     ===================================================== */
 
     function createExperienceStack() {
@@ -981,9 +989,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const experiencePanels =
             gsap.utils.toArray(".experience-panel");
 
-        const contactSection =
-            document.querySelector("#contact-section");
-
         if (
             !experienceSection ||
             !experienceStage ||
@@ -991,43 +996,26 @@ document.addEventListener("DOMContentLoaded", () => {
         ) return;
 
         const panelCount = experiencePanels.length;
-        const TRANSITION_TIME = 0.62;
-        const WHEEL_LOCK_TIME = 700;
+        const mobileQuery = window.matchMedia("(max-width: 900px)");
 
         let activePanel = 0;
         let isTransitioning = false;
-        let wheelLocked = false;
+        let inputLocked = false;
+        let touchStartY = 0;
+        let touchStartX = 0;
 
-        /*
-         * IMPORTANT:
-         * This function controls ONLY the Experience section.
-         * The original intro / top scroll animation is untouched.
-         *
-         * The Experience section is one viewport tall and the cards
-         * are layered inside it. We explicitly keep the browser at
-         * the top of this section while changing cards. At the first
-         * and last card we hand scrolling back to the normal document
-         * flow and explicitly move to the adjacent section. This avoids
-         * the black/empty overscroll seen in the previous version.
-         */
+        const INPUT_LOCK_MS = 760;
+        const PANEL_DURATION = 0.68;
+        const SWIPE_DISTANCE = 50;
+        const STACK_REVEAL = 7;
 
-        gsap.set(
-            experiencePanels,
-            {
-                yPercent: 100,
-                scale: 1,
-                opacity: 1,
-                zIndex: 1
-            }
-        );
 
-        gsap.set(
-            experiencePanels[0],
-            {
-                yPercent: 0,
-                zIndex: 5
-            }
-        );
+        function getViewportHeight() {
+            return window.innerHeight ||
+                   document.documentElement.clientHeight ||
+                   1;
+        }
+
 
         function getSectionTop() {
             return (
@@ -1036,13 +1024,138 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        function keepExperiencePinned() {
-            const top = getSectionTop();
 
-            if (Math.abs(window.scrollY - top) > 1) {
-                window.scrollTo(0, top);
-            }
+        function getContactSection() {
+            return document.querySelector("#contact-section") ||
+                   document.querySelector(".contact-section");
         }
+
+
+        function getPreviousSectionTarget() {
+            return Math.max(
+                0,
+                getSectionTop() - getViewportHeight()
+            );
+        }
+
+
+        function isSectionActive() {
+            const rect =
+                experienceSection.getBoundingClientRect();
+
+            const vh = getViewportHeight();
+
+            /* The section is one viewport tall. */
+            return (
+                rect.top <= 3 &&
+                rect.bottom >= vh - 3
+            );
+        }
+
+
+        function setPanelState(index) {
+
+            index = Math.max(
+                0,
+                Math.min(panelCount - 1, index)
+            );
+
+            experiencePanels.forEach((panel, panelIndex) => {
+
+                gsap.killTweensOf(panel);
+
+                if (panelIndex < index) {
+
+                    /*
+                     * Previous cards stay underneath instead of disappearing.
+                     * This is what creates the real card-on-card stack.
+                     */
+                    gsap.set(panel, {
+                        yPercent: 0,
+                        zIndex: panelIndex + 1,
+                        opacity: 1,
+                        scale: 1,
+                        borderRadius: 0,
+                        filter: "brightness(.94)"
+                    });
+
+                } else if (panelIndex === index) {
+
+                    /* Leave a small strip of the previous card visible above. */
+                    gsap.set(panel, {
+                        yPercent: index === 0 ? 0 : STACK_REVEAL,
+                        zIndex: 100,
+                        opacity: 1,
+                        scale: 1,
+                        borderRadius: 0,
+                        filter: "brightness(1)"
+                    });
+
+                } else {
+
+                    gsap.set(panel, {
+                        yPercent: 100,
+                        zIndex: 1,
+                        opacity: 1,
+                        scale: 1,
+                        borderRadius: 0,
+                        filter: "brightness(1)"
+                    });
+
+                }
+
+            });
+
+            activePanel = index;
+        }
+
+
+        function movePageTo(targetY, smooth = true) {
+
+            window.scrollTo({
+                top: Math.max(0, targetY),
+                behavior: smooth ? "smooth" : "auto"
+            });
+        }
+
+
+        function goToContact() {
+
+            const contact = getContactSection();
+
+            if (!contact) return;
+
+            inputLocked = true;
+
+            /* Make the fourth card fully visible before leaving. */
+            setPanelState(panelCount - 1);
+            activePanel = panelCount - 1;
+
+            const target =
+                contact.getBoundingClientRect().top +
+                window.scrollY;
+
+            movePageTo(target, true);
+
+            window.setTimeout(() => {
+                inputLocked = false;
+            }, INPUT_LOCK_MS);
+        }
+
+
+        function leaveExperienceUpward() {
+
+            inputLocked = true;
+
+            const target = getPreviousSectionTarget();
+
+            movePageTo(target, true);
+
+            window.setTimeout(() => {
+                inputLocked = false;
+            }, INPUT_LOCK_MS);
+        }
+
 
         function moveToPanel(targetIndex) {
 
@@ -1051,336 +1164,347 @@ document.addEventListener("DOMContentLoaded", () => {
                 targetIndex >= panelCount ||
                 targetIndex === activePanel ||
                 isTransitioning
-            ) return;
+            ) {
+                return false;
+            }
 
-            const previousPanel =
-                experiencePanels[activePanel];
-
-            const nextPanel =
-                experiencePanels[targetIndex];
-
-            const movingForward =
-                targetIndex > activePanel;
+            const previousIndex = activePanel;
+            const previousPanel = experiencePanels[previousIndex];
+            const nextPanel = experiencePanels[targetIndex];
+            const forward = targetIndex > previousIndex;
 
             isTransitioning = true;
 
-            /* Always keep the browser locked to the Experience viewport. */
-            keepExperiencePinned();
+            gsap.killTweensOf([previousPanel, nextPanel]);
 
-            gsap.set(
-                nextPanel,
-                {
-                    yPercent:
-                        movingForward
-                            ? 100
-                            : -100,
-                    scale: 1,
+            /* Keep the browser parked on the Experience section. */
+            if (!isSectionActive()) {
+                movePageTo(getSectionTop(), false);
+            }
+
+            if (forward) {
+
+                /*
+                 * The current card stays underneath. The next card rises
+                 * over it from the bottom and stops slightly below the top,
+                 * leaving the previous card's top edge visible.
+                 */
+                gsap.set(nextPanel, {
+                    yPercent: 100,
+                    zIndex: 100,
                     opacity: 1,
-                    zIndex: 6
-                }
-            );
+                    scale: 1,
+                    borderRadius: 0,
+                    filter: "brightness(1)"
+                });
 
-            gsap.to(
-                nextPanel,
-                {
+                gsap.to(nextPanel, {
+                    yPercent: STACK_REVEAL,
+                    duration: PANEL_DURATION,
+                    ease: "power3.out",
+                    overwrite: true,
+                    onComplete: () => {
+                        setPanelState(targetIndex);
+                        isTransitioning = false;
+                    }
+                });
+
+            } else {
+
+                /*
+                 * Reverse the exact card-on-card motion. The current card
+                 * drops toward the bottom, while the previous card is already
+                 * sitting at the small STACK_REVEAL offset and rises to 0.
+                 * This makes scrolling upward feel like the same physical
+                 * stack being opened in reverse.
+                 */
+                const revealPanel = experiencePanels[targetIndex];
+
+                gsap.set(revealPanel, {
+                    yPercent: STACK_REVEAL,
+                    zIndex: 100,
+                    opacity: 1,
+                    scale: 1,
+                    borderRadius: 0,
+                    filter: "brightness(1)"
+                });
+
+                gsap.to(previousPanel, {
+                    yPercent: 100,
+                    duration: PANEL_DURATION,
+                    ease: "power3.inOut",
+                    overwrite: true
+                });
+
+                gsap.to(revealPanel, {
                     yPercent: 0,
-                    duration: TRANSITION_TIME,
+                    duration: PANEL_DURATION,
                     ease: "power3.inOut",
                     overwrite: true,
                     onComplete: () => {
-
-                        gsap.set(
-                            previousPanel,
-                            {
-                                yPercent:
-                                    movingForward
-                                        ? -100
-                                        : 100,
-                                scale: 1,
-                                opacity: 1,
-                                zIndex: 1
-                            }
-                        );
-
-                        experiencePanels.forEach(
-                            (panel, index) => {
-
-                                if (
-                                    index !== targetIndex &&
-                                    index !== activePanel
-                                ) {
-
-                                    gsap.set(
-                                        panel,
-                                        {
-                                            yPercent:
-                                                index < targetIndex
-                                                    ? -100
-                                                    : 100,
-                                            zIndex: 1
-                                        }
-                                    );
-
-                                }
-
-                            }
-                        );
-
-                        activePanel = targetIndex;
+                        setPanelState(targetIndex);
                         isTransitioning = false;
-
-                        /* Re-pin after the animation in case browser momentum moved 1–2px. */
-                        keepExperiencePinned();
-
                     }
-                }
-            );
+                });
+            }
+
+            activePanel = targetIndex;
+            return true;
         }
 
-        function lockWheel() {
-            wheelLocked = true;
 
-            window.setTimeout(
-                () => {
-                    wheelLocked = false;
-                },
-                WHEEL_LOCK_TIME
-            );
-        }
+        function handleDesktopWheel(event) {
 
-        function goToContact() {
+            if (mobileQuery.matches) return;
 
-            if (!contactSection) return;
+            const rect = experienceSection.getBoundingClientRect();
+            const vh = getViewportHeight();
+            const delta = event.deltaY;
 
-            window.scrollTo({
-                top:
-                    contactSection.getBoundingClientRect().top +
-                    window.scrollY,
-                behavior: "smooth"
-            });
-        }
+            if (Math.abs(delta) < 1) return;
 
-        function goToPreviousSection() {
-
-            const previousSection =
-                experienceSection.previousElementSibling;
-
-            if (!previousSection) return;
-
-            window.scrollTo({
-                top:
-                    previousSection.getBoundingClientRect().top +
-                    window.scrollY,
-                behavior: "smooth"
-            });
-        }
-
-        function handleExperienceWheel(event) {
-
-            const rect =
-                experienceSection.getBoundingClientRect();
-
-            const viewportHeight =
-                window.innerHeight;
-
-            const intersectsViewport =
-                rect.top < viewportHeight &&
-                rect.bottom > 0;
-
-            if (!intersectsViewport) return;
+            const sectionVisible =
+                rect.bottom > 0 &&
+                rect.top < vh;
 
             /*
-             * If the user has just entered Experience, snap the section
-             * to the viewport before any card transition. This prevents
-             * partial-screen / black-space states.
+             * Once the Experience section enters the viewport, take ownership
+             * of the wheel immediately. This prevents native scrolling from
+             * landing the section between two cards.
              */
-            const sectionIsAtViewportTop =
-                Math.abs(rect.top) <= 8;
+            if (!isSectionActive()) {
 
-            if (!sectionIsAtViewportTop) {
+                if (sectionVisible) {
+                    const enteringFromAbove = rect.top > 0 && delta > 0;
+                    const enteringFromBelow = rect.bottom < vh && delta < 0;
 
-                if (event.deltaY > 0 && rect.top > 0) {
-                    event.preventDefault();
-                    window.scrollTo(0, getSectionTop());
-                    return;
-                }
+                    if (enteringFromAbove || enteringFromBelow) {
+                        event.preventDefault();
 
-                if (event.deltaY < 0 && rect.bottom < viewportHeight) {
-                    event.preventDefault();
-                    window.scrollTo(0, getSectionTop());
-                    return;
-                }
+                        if (inputLocked || isTransitioning) return;
 
-                return;
-            }
+                        inputLocked = true;
+                        movePageTo(getSectionTop(), false);
 
-            /* FIRST CARD + UP → leave Experience normally. */
-            if (
-                event.deltaY < 0 &&
-                activePanel === 0
-            ) {
-                event.preventDefault();
+                        /* Always begin at the correct end of the stack. */
+                        if (enteringFromAbove) {
+                            activePanel = 0;
+                            setPanelState(0);
+                        } else {
+                            activePanel = panelCount - 1;
+                            setPanelState(panelCount - 1);
+                        }
 
-                if (!wheelLocked && !isTransitioning) {
-                    lockWheel();
-                    goToPreviousSection();
+                        window.setTimeout(() => {
+                            inputLocked = false;
+                        }, 120);
+                    }
                 }
 
                 return;
             }
 
-            /* LAST CARD + DOWN → go directly to Contact. */
-            if (
-                event.deltaY > 0 &&
-                activePanel === panelCount - 1
-            ) {
-                event.preventDefault();
+            /* Experience owns the wheel while the section is aligned. */
+            event.preventDefault();
 
-                if (!wheelLocked && !isTransitioning) {
-                    lockWheel();
+            if (inputLocked || isTransitioning) return;
+
+            /* Ignore tiny trackpad noise. */
+            if (Math.abs(delta) < 8) return;
+
+            inputLocked = true;
+
+            if (delta > 0) {
+
+                if (activePanel < panelCount - 1) {
+                    moveToPanel(activePanel + 1);
+                } else {
                     goToContact();
                 }
 
-                return;
+            } else {
+
+                if (activePanel > 0) {
+                    moveToPanel(activePanel - 1);
+                } else {
+                    leaveExperienceUpward();
+                }
             }
 
-            /* Internal Experience navigation. */
-            event.preventDefault();
+            window.setTimeout(() => {
+                inputLocked = false;
+            }, INPUT_LOCK_MS);
+        }
+
+        window.addEventListener(
+            "wheel",
+            handleDesktopWheel,
+            { passive: false, capture: true }
+        );
+
+
+        /* =================================================
+           MOBILE SWIPE
+        ================================================= */
+
+        function handleTouchStart(event) {
 
             if (
-                wheelLocked ||
-                isTransitioning
+                !mobileQuery.matches ||
+                !event.touches.length
             ) return;
 
-            lockWheel();
-            keepExperiencePinned();
+            touchStartY =
+                event.touches[0].clientY;
 
-            if (event.deltaY > 0) {
-                moveToPanel(activePanel + 1);
-            } else {
-                moveToPanel(activePanel - 1);
+            touchStartX =
+                event.touches[0].clientX;
+        }
+
+
+        function handleTouchMove(event) {
+
+            if (!mobileQuery.matches) return;
+
+            /*
+             * Critical: do not allow the document to scroll while
+             * the Experience card is being swiped.
+             */
+            if (isSectionActive()) {
+                event.preventDefault();
             }
         }
 
-        /*
-         * Capture at window level so the transition also works when the
-         * wheel starts over text, links, cards, or other child elements.
-         */
-        window.addEventListener(
-            "wheel",
-            handleExperienceWheel,
-            {
-                passive: false,
-                capture: true
+
+        function handleTouchEnd(event) {
+
+            if (
+                !mobileQuery.matches ||
+                inputLocked ||
+                isTransitioning ||
+                !event.changedTouches.length
+            ) return;
+
+            const touchEndY =
+                event.changedTouches[0].clientY;
+
+            const touchEndX =
+                event.changedTouches[0].clientX;
+
+            const distanceY =
+                touchStartY - touchEndY;
+
+            const distanceX =
+                touchStartX - touchEndX;
+
+            /* Ignore horizontal movement and tiny taps. */
+            if (
+                Math.abs(distanceY) < SWIPE_DISTANCE ||
+                Math.abs(distanceY) < Math.abs(distanceX)
+            ) {
+                return;
             }
-        );
 
-        /* -------------------------------------------------
-           TOUCH / SWIPE
-        ------------------------------------------------- */
+            inputLocked = true;
 
-        let touchStartY = 0;
-        let touchLocked = false;
+            if (distanceY > 0) {
 
-        experienceSection.addEventListener(
-            "touchstart",
-            event => {
+                /* Swipe UP = next experience. */
+                if (activePanel < panelCount - 1) {
 
-                if (event.touches.length) {
-                    touchStartY =
-                        event.touches[0].clientY;
-                }
-
-            },
-            { passive: true }
-        );
-
-        experienceSection.addEventListener(
-            "touchend",
-            event => {
-
-                if (
-                    touchLocked ||
-                    !event.changedTouches.length
-                ) return;
-
-                const touchEndY =
-                    event.changedTouches[0].clientY;
-
-                const distance =
-                    touchStartY - touchEndY;
-
-                if (Math.abs(distance) < 50) return;
-
-                const rect =
-                    experienceSection.getBoundingClientRect();
-
-                if (
-                    Math.abs(rect.top) > 8 ||
-                    rect.bottom < window.innerHeight - 8
-                ) {
-                    window.scrollTo(0, getSectionTop());
-                    return;
-                }
-
-                touchLocked = true;
-
-                window.setTimeout(
-                    () => {
-                        touchLocked = false;
-                    },
-                    WHEEL_LOCK_TIME
-                );
-
-                if (
-                    distance > 0 &&
-                    activePanel === panelCount - 1
-                ) {
-                    goToContact();
-                    return;
-                }
-
-                if (
-                    distance < 0 &&
-                    activePanel === 0
-                ) {
-                    goToPreviousSection();
-                    return;
-                }
-
-                if (distance > 0) {
                     moveToPanel(activePanel + 1);
+
                 } else {
-                    moveToPanel(activePanel - 1);
+
+                    goToContact();
                 }
 
-            },
+            } else {
+
+                /* Swipe DOWN = previous experience. */
+                if (activePanel > 0) {
+
+                    moveToPanel(activePanel - 1);
+
+                } else {
+
+                    leaveExperienceUpward();
+                }
+            }
+
+            window.setTimeout(() => {
+                inputLocked = false;
+            }, INPUT_LOCK_MS);
+        }
+
+
+        experienceStage.addEventListener(
+            "touchstart",
+            handleTouchStart,
             { passive: true }
         );
 
-        /* Keep the active card correctly positioned after resize. */
+        experienceStage.addEventListener(
+            "touchmove",
+            handleTouchMove,
+            { passive: false }
+        );
+
+        experienceStage.addEventListener(
+            "touchend",
+            handleTouchEnd,
+            { passive: true }
+        );
+
+
+        /* =================================================
+           INITIAL STATE
+        ================================================= */
+
+        gsap.set(experiencePanels, {
+            yPercent: 100,
+            opacity: 1,
+            scale: 1,
+            zIndex: 1,
+            borderRadius: 0,
+            filter: "brightness(1)"
+        });
+
+        setPanelState(0);
+
+
+        function syncMode() {
+
+            isTransitioning = false;
+            inputLocked = false;
+
+            gsap.killTweensOf(experiencePanels);
+            setPanelState(activePanel);
+
+        }
+
+
+        if (mobileQuery.addEventListener) {
+            mobileQuery.addEventListener("change", syncMode);
+        } else {
+            mobileQuery.addListener(syncMode);
+        }
+
+
         window.addEventListener(
             "resize",
             () => {
 
-                if (!isTransitioning) {
-                    gsap.set(
-                        experiencePanels,
-                        { scale: 1 }
-                    );
-
-                    gsap.set(
-                        experiencePanels[activePanel],
-                        {
-                            yPercent: 0,
-                            zIndex: 5
-                        }
-                    );
+                if (!isTransitioning && isSectionActive()) {
+                    movePageTo(getSectionTop(), false);
                 }
 
+                setPanelState(activePanel);
             },
             { passive: true }
         );
+
+        syncMode();
     }
 
 
@@ -1493,3 +1617,4 @@ document.addEventListener("DOMContentLoaded", () => {
     initialize();
 
 });
+
